@@ -6,6 +6,11 @@ from utils.Time import Time
 from constants.GameConfig import ScreenSize
 from constants.AssetPath import *
 
+from scenes.GameScene import GameScene
+from scenes.MenuScene import MenuScene
+
+from managers.SceneManager import SceneManager
+from managers.InputManager import InputManager
 
 class Game:
     def __init__(self):
@@ -13,21 +18,18 @@ class Game:
         pygame.display.set_caption("Tents and Trees")
 
         self.screen = pygame.display.set_mode((ScreenSize.WIDTH, ScreenSize.HEIGHT))
-
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(FontPath.TT_FORS, 32)
 
-        self.bg = pygame.image.load(ImagePath.BACKGROUND)
-        self.bg.fill(
-            (245, 224, 205),
-            special_flags=pygame.BLEND_RGB_MULT,
-        )
+        self.init_scene_manager()
 
-    def draw(self):
-        self.screen.fill((0, 0, 0))
+    def init_scene_manager(self):
+        SceneManager.scenes["GameScene"] = GameScene(self.screen)
+        SceneManager.scenes["MenuScene"] = MenuScene(self.screen)
 
-        self.screen.blit(self.bg, (0, 0))
+        SceneManager.change_scene("MenuScene")
 
+    def render(self):
+        SceneManager.update()
         pygame.display.update()
 
     def update(self):
@@ -37,7 +39,9 @@ class Game:
                     pygame.quit()
                     exit()
 
-            self.draw()
+            InputManager.update()
+
+            self.render()
 
             Time.deltaTime = self.clock.tick(60) / 1000
             Time.time = pygame.time.get_ticks() / 1000
