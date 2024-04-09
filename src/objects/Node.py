@@ -1,5 +1,7 @@
 import pygame
 
+from managers.EaseManager import Ease
+from managers.TweenManager import Tween
 from objects.button.Button import Button
 
 from constants.AssetPath import ImagePath
@@ -67,6 +69,9 @@ class Node:
 
             self.tent_start_animation.update(screen)
         elif self._state == NodeState.MARK:
+            self.neutral.position = self.position
+            self.neutral.update(screen)
+
             self.grass.position = self.position
             self.grass.update(screen)
 
@@ -80,6 +85,9 @@ class Node:
         elif self._state == NodeState.EMPTY:
             self.neutral.position = self.position
             self.neutral.update(screen)
+
+            self.grass.position = self.position
+            self.grass.update(screen)
 
             if self._prev_state == NodeState.TENT:
                 self.tent_hide_animation.position = (
@@ -97,6 +105,14 @@ class Node:
         self._state = state
 
         if self._state == NodeState.EMPTY:
+            if immediately:
+                self.neutral.scale = 0.35
+                self.grass.scale = 0
+            else:
+                self.neutral.scale = 0
+                Tween(self.neutral, 0.35, 0.25, Ease.OUT_QUAD)
+                Tween(self.grass, 0, 0.25, Ease.OUT_QUAD)
+
             if self._prev_state == NodeState.TENT:
                 self.tent_hide_animation.play(immediately)
         elif self._state == NodeState.TREE:
@@ -104,7 +120,23 @@ class Node:
         elif self._state == NodeState.MARK:
             if self._prev_state == NodeState.TENT:
                 self.tent_hide_animation.play(immediately)
+            else:
+                if immediately:
+                    self.grass.scale = 0.35
+                else:
+                    self.grass.scale = 0
+                    Tween(self.grass, 0.35, 0.25, Ease.OUT_QUAD)
+
+            if immediately or self._prev_state == NodeState.TENT:
+                self.neutral.scale = 0
+            else:
+                Tween(self.neutral, 0, 0.25, Ease.OUT_QUAD)
         elif self._state == NodeState.TENT:
+            if immediately:
+                self.grass.scale = 0.35
+            else:
+                self.grass.scale = 0
+                Tween(self.grass, 0.35, 0.25, Ease.OUT_QUAD)
             self.tent_start_animation.play(immediately)
 
     def on_left_click(self):

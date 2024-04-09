@@ -85,13 +85,13 @@ class Grid:
 
         self.update_ui()
 
-    def reset(self):
+    def reset(self, immediately=False):
         self.current_matrix = copy.deepcopy(self.initial_matrix)
         self.current_rows_index = self.initial_rows_index
         self.current_cols_index = self.initial_cols_index
 
         self.update_ui()
-        self.update_grid()
+        self.update_grid(immediately)
 
     def update(self, screen: pygame.Surface):
         for row in self.grid:

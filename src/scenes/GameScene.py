@@ -102,8 +102,7 @@ class GameScene:
 
     def reset_searching(self):
         self.searching.reset()
-        self.grid.reset()
-        self.grid.update_grid(True)
+        self.grid.reset(True)
         self.solution_index = 0
 
     def on_bfs_button_click(self):

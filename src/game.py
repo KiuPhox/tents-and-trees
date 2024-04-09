@@ -1,6 +1,7 @@
 import pygame
 from sys import exit
 
+
 from utils.Time import Time
 
 from constants.GameConfig import ScreenSize
@@ -9,6 +10,7 @@ from constants.AssetPath import *
 from scenes.GameScene import GameScene
 from scenes.MenuScene import MenuScene
 
+from managers.TweenManager import TweenManager
 from managers.SceneManager import SceneManager
 from managers.InputManager import InputManager
 
@@ -22,7 +24,11 @@ class Game:
         self.clock = pygame.time.Clock()
         pygame.display.set_icon(pygame.image.load(ImagePath.GAME_LOGO))
 
+        self.init_tween_manager()
         self.init_scene_manager()
+
+    def init_tween_manager(self):
+        TweenManager.init()
 
     def init_scene_manager(self):
         SceneManager.scenes["GameScene"] = GameScene(self.screen)
@@ -42,6 +48,7 @@ class Game:
                     exit()
 
             InputManager.update()
+            TweenManager.update()
 
             self.render()
 
