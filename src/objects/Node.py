@@ -1,6 +1,7 @@
 import pygame
 
 from objects.button.Button import Button
+
 from constants.AssetPath import ImagePath
 
 class Node:
@@ -43,12 +44,16 @@ class Node:
             self.set_state(NodeState.EMPTY)
         elif self._state != NodeState.TREE:
             self.set_state(NodeState.TENT)
+
+        self.on_tile_state_changed(self.coord, self._state)
         
     def on_right_click(self):
         if self._state == NodeState.MARK:
             self.set_state(NodeState.EMPTY)
         elif self._state != NodeState.TREE:
             self.set_state(NodeState.MARK)
+
+        self.on_tile_state_changed(self.coord, self._state)
 
 class NodeState:
     EMPTY = 0
