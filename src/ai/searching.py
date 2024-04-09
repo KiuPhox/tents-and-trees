@@ -36,7 +36,7 @@ class Searching:
 
         return self.solution
     
-    def dfs(self):
+    def dfs(self) -> None:
         start_time = time.time()
 
         stack = [self.state]
@@ -63,6 +63,6 @@ class Searching:
 
         return self.solution
     
-    def reset(self):
+    def reset(self) -> None:
         self.state = State(self.state.board, self.state.rows, self.state.cols)
         self.solution = []
