@@ -14,8 +14,9 @@ TEXT_DEFAULT_COLOR = (127, 79, 65)
 TEXT_CORRECT_COLOR = (201, 167, 153)
 TEXT_WRONG_COLOR = (255, 0, 0)
 
+
 class Grid:
-    def __init__(self) -> None:
+    def start(self):
         self.initial_matrix = []
         self.current_matrix = []
 
@@ -36,30 +37,47 @@ class Grid:
 
         self.initial_matrix = level_data["map"]
         self.current_matrix = copy.deepcopy(self.initial_matrix)
-        self.current_rows_index =  self.initial_rows_index = level_data["rows"]
+        self.current_rows_index = self.initial_rows_index = level_data["rows"]
         self.initial_cols_index = self.current_cols_index = level_data["cols"]
-        
+
         rows = len(self.initial_matrix)
         cols = len(self.initial_matrix[0])
 
         for y in range(rows):
             row = []
             for x in range(cols):
-                pos = ((x - cols / 2) * 65 + ScreenSize.WIDTH / 2, (y - rows / 2) * 65 + ScreenSize.HEIGHT / 2)
+                pos = (
+                    (x - cols / 2) * 65 + ScreenSize.WIDTH / 2,
+                    (y - rows / 2) * 65 + ScreenSize.HEIGHT / 2,
+                )
                 coord = (x, y)
 
                 node = Node(coord, pos, self.initial_matrix[y][x])
                 node.on_tile_state_changed = self.on_tile_state_changed
-                
+
                 row.append(node)
             self.grid.append(row)
 
         for i in range(rows):
-            text = Text(str(self.initial_rows_index[i]), self.font, ((i - cols / 2) * 65 + 32 + ScreenSize.WIDTH / 2, ScreenSize.HEIGHT / 2 - (cols / 2 + 0.5) * 64))
+            text = Text(
+                str(self.initial_rows_index[i]),
+                self.font,
+                (
+                    (i - cols / 2) * 65 + 32 + ScreenSize.WIDTH / 2,
+                    ScreenSize.HEIGHT / 2 - (cols / 2 + 0.5) * 64,
+                ),
+            )
             text.color = TEXT_DEFAULT_COLOR
             self.rows_text.append(text)
         for i in range(cols):
-            text = Text(str(self.initial_cols_index[i]), self.font, (ScreenSize.WIDTH / 2 - (rows / 2 + 0.5) * 64, (i - rows / 2) * 65 + 32 + ScreenSize.HEIGHT / 2))
+            text = Text(
+                str(self.initial_cols_index[i]),
+                self.font,
+                (
+                    ScreenSize.WIDTH / 2 - (rows / 2 + 0.5) * 64,
+                    (i - rows / 2) * 65 + 32 + ScreenSize.HEIGHT / 2,
+                ),
+            )
             text.color = TEXT_DEFAULT_COLOR
             self.cols_text.append(text)
 
@@ -72,16 +90,15 @@ class Grid:
 
         self.update_ui()
         self.update_grid()
-            
 
     def update(self, screen: pygame.Surface):
         for row in self.grid:
             for node in row:
                 node.update(screen)
-        
+
         for text in self.rows_text:
             text.update(screen)
-        
+
         for text in self.cols_text:
             text.update(screen)
 
@@ -117,11 +134,10 @@ class Grid:
             if row[col] == NodeState.TENT:
                 tents += 1
         return tents
-    
+
     def get_row_tents(self, row: int):
         tents = 0
         for cell in self.current_matrix[row]:
             if cell == NodeState.TENT:
                 tents += 1
         return tents
-    

@@ -4,11 +4,19 @@ from objects.button.Button import Button
 
 from constants.AssetPath import ImagePath
 
+
 class Node:
-    def __init__(self, coord: tuple[int, int], position: tuple[float, float], state: int) -> None:
+    def __init__(
+        self, coord: tuple[int, int], position: tuple[float, float], state: int
+    ) -> None:
         self.coord = coord
         self.position = position
-        self.tile = Button(pygame.image.load(ImagePath.BLACK_SQUARE), position, left_click_callback=(self.on_left_click, [], {}), right_click_callback=(self.on_right_click, [], {}))
+        self.tile = Button(
+            pygame.image.load(ImagePath.BLACK_SQUARE),
+            position,
+            left_click_callback=(self.on_left_click, [], {}),
+            right_click_callback=(self.on_right_click, [], {}),
+        )
 
         self.tree = pygame.image.load(ImagePath.TREE)
         self.tent = pygame.image.load(ImagePath.TENT)
@@ -29,15 +37,14 @@ class Node:
     def set_state(self, state: int):
         self._state = state
 
-        if (self._state == NodeState.EMPTY):
+        if self._state == NodeState.EMPTY:
             self.tile.image = pygame.image.load(ImagePath.BLACK_SQUARE)
-        elif (self._state == NodeState.TREE):
+        elif self._state == NodeState.TREE:
             self.tile.image = pygame.image.load(ImagePath.GREEN_SQUARE)
-        elif (self._state == NodeState.MARK):
+        elif self._state == NodeState.MARK:
             self.tile.image = pygame.image.load(ImagePath.GREEN_SQUARE)
-        elif (self._state == NodeState.TENT):
+        elif self._state == NodeState.TENT:
             self.tile.image = pygame.image.load(ImagePath.GREEN_SQUARE)
-            
 
     def on_left_click(self):
         if self._state == NodeState.TENT:
@@ -46,7 +53,7 @@ class Node:
             self.set_state(NodeState.TENT)
 
         self.on_tile_state_changed(self.coord, self._state)
-        
+
     def on_right_click(self):
         if self._state == NodeState.MARK:
             self.set_state(NodeState.EMPTY)
@@ -54,6 +61,7 @@ class Node:
             self.set_state(NodeState.MARK)
 
         self.on_tile_state_changed(self.coord, self._state)
+
 
 class NodeState:
     EMPTY = 0

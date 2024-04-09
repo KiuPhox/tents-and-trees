@@ -5,7 +5,7 @@ class SceneManager:
     @staticmethod
     def change_scene(name):
         SceneManager.current_scene = SceneManager.scenes[name]
-        SceneManager.current_scene.enter()
+        SceneManager.current_scene.start()
 
     @staticmethod
     def update():

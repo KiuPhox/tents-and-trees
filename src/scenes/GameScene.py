@@ -17,6 +17,7 @@ from ai.searching import Searching
 class GameScene:
     def __init__(self, screen):
         self.screen = screen
+
         self.bg = pygame.image.load(ImagePath.BACKGROUND)
         self.bg.fill(
             (245, 224, 205),
@@ -61,6 +62,14 @@ class GameScene:
             left_click_callback=(self.on_next_button_click, [], {}),
         )
 
+        self.exit_button = Button(
+            None,
+            (ScreenSize.WIDTH - 100, ScreenSize.HEIGHT - 50),
+            "Exit",
+            pygame.font.Font(FontPath.TT_FORS, 40),
+            left_click_callback=(SceneManager.change_scene, ["MenuScene"], {}),
+        )
+
         self.time_text = Text(
             "Time: 0",
             pygame.font.Font(FontPath.TT_FORS, 40),
@@ -73,15 +82,17 @@ class GameScene:
         self.dfs_button.text.color = (127, 79, 65)
         self.previous_button.text.color = (127, 79, 65)
         self.next_button.text.color = (127, 79, 65)
+        self.exit_button.text.color = (127, 79, 65)
 
-        self.solution_index = 0
+    def start(self):
+        self.level_title.text = f"Level {GameManager.current_level}"
+        self.time_text.text = "Time: 0"
 
         self.grid = Grid()
-
-    def enter(self):
-        self.level_title.text = f"Level {GameManager.current_level}"
-
+        self.grid.start()
         self.grid.create()
+
+        self.solution_index = 0
 
         self.searching = Searching(
             self.grid.initial_matrix,
@@ -138,5 +149,6 @@ class GameScene:
         self.dfs_button.update(self.screen)
         self.previous_button.update(self.screen)
         self.next_button.update(self.screen)
+        self.exit_button.update(self.screen)
 
         self.grid.update(self.screen)

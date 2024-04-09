@@ -14,6 +14,8 @@ LEVEL_COLUMNS = 10
 class MenuScene:
     def __init__(self, screen):
         self.screen = screen
+
+    def start(self):
         self.bg = pygame.image.load(ImagePath.BACKGROUND)
         self.bg.fill(
             (245, 224, 205),
@@ -40,9 +42,6 @@ class MenuScene:
             button.text.color = (127, 79, 65)
 
             self.level_buttons.append(button)
-
-    def enter(self):
-        pass
 
     def update(self):
         self.screen.fill((0, 0, 0))

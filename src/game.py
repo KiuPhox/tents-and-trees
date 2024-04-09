@@ -12,6 +12,7 @@ from scenes.MenuScene import MenuScene
 from managers.SceneManager import SceneManager
 from managers.InputManager import InputManager
 
+
 class Game:
     def __init__(self):
         pygame.init()
