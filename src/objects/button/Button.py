@@ -44,15 +44,15 @@ class Button:
         self.text.update(screen)
 
     def check_input(self) -> None:
-        mouse_positon = InputManager.get_mouse_position()
+        mouse_position = InputManager.get_mouse_position()
 
         if InputManager.get_mouse_down(0):
             is_clicked = False
 
             if self.image_rect is not None:
-                is_clicked = self.image_rect.collidepoint(mouse_positon)
+                is_clicked = self.image_rect.collidepoint(mouse_position)
             else:
-                is_clicked = self.text_rect.collidepoint(mouse_positon)
+                is_clicked = self.text_rect.collidepoint(mouse_position)
 
             if is_clicked:
                 self.on_left_click()
@@ -61,9 +61,9 @@ class Button:
             is_clicked = False
 
             if self.image_rect is not None:
-                is_clicked = self.image_rect.collidepoint(mouse_positon)
+                is_clicked = self.image_rect.collidepoint(mouse_position)
             else:
-                is_clicked = self.text_rect.collidepoint(mouse_positon)
+                is_clicked = self.text_rect.collidepoint(mouse_position)
 
             if is_clicked:
                 self.on_right_click()
