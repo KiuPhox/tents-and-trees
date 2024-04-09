@@ -6,6 +6,8 @@ from constants.GameConfig import ScreenSize
 from managers.SceneManager import SceneManager
 from managers.GameManager import GameManager
 
+from objects.sprite.AnimationSprite import AnimationSprite
+from objects.sprite.Sprite import Sprite
 from objects.button.Button import Button
 
 LEVEL_COLUMNS = 10

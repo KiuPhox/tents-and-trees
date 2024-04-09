@@ -4,6 +4,7 @@ from objects.Text import Text
 
 from managers.InputManager import InputManager
 from managers.SceneManager import SceneManager
+from objects.sprite.Sprite import Sprite
 
 
 class Button:
@@ -16,30 +17,24 @@ class Button:
         left_click_callback=None,
         right_click_callback=None,
     ) -> None:
-        self.image = image
         self.position = position
         self.text = Text(string, font, position)
 
-        self.image_rect = (
-            self.image.get_rect(
-                center=(
-                    position[0] + image.get_size()[0] / 2,
-                    position[1] + image.get_size()[1] / 2,
-                )
-            )
-            if self.image is not None
-            else None
-        )
+        self.sprite = Sprite(image, position) if image is not None else None
+
         self.text_rect = self.text.text_rect
 
         self.left_click_callback = left_click_callback
         self.right_click_callback = right_click_callback
 
+        self.active = True
+
     def update(self, screen: pygame.Surface):
         self.check_input()
 
-        if self.image is not None:
-            screen.blit(self.image, self.position)
+        if self.sprite is not None and self.active:
+            self.sprite.update(screen)
+            pygame.draw.rect(screen, (255, 0, 0), self.sprite.get_rect(), 1)
 
         self.text.update(screen)
 
@@ -49,8 +44,8 @@ class Button:
         if InputManager.get_mouse_down(0):
             is_clicked = False
 
-            if self.image_rect is not None:
-                is_clicked = self.image_rect.collidepoint(mouse_position)
+            if self.sprite is not None:
+                is_clicked = self.sprite.get_rect().collidepoint(mouse_position)
             else:
                 is_clicked = self.text_rect.collidepoint(mouse_position)
 
@@ -60,8 +55,8 @@ class Button:
         if InputManager.get_mouse_down(2):
             is_clicked = False
 
-            if self.image_rect is not None:
-                is_clicked = self.image_rect.collidepoint(mouse_position)
+            if self.sprite is not None:
+                is_clicked = self.sprite.get_rect().collidepoint(mouse_position)
             else:
                 is_clicked = self.text_rect.collidepoint(mouse_position)
 

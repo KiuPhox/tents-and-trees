@@ -103,6 +103,7 @@ class GameScene:
     def reset_searching(self):
         self.searching.reset()
         self.grid.reset()
+        self.grid.update_grid(True)
         self.solution_index = 0
 
     def on_bfs_button_click(self):
@@ -126,7 +127,7 @@ class GameScene:
                 solution[self.solution_index].board
             )
             self.grid.update_ui()
-            self.grid.update_grid()
+            self.grid.update_grid(True)
 
     def on_next_button_click(self):
         solution = self.searching.solution
@@ -137,7 +138,7 @@ class GameScene:
                 solution[self.solution_index].board
             )
             self.grid.update_ui()
-            self.grid.update_grid()
+            self.grid.update_grid(True)
 
     def update(self):
         self.screen.fill((0, 0, 0))

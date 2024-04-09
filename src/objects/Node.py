@@ -3,6 +3,8 @@ import pygame
 from objects.button.Button import Button
 
 from constants.AssetPath import ImagePath
+from objects.sprite.AnimationSprite import AnimationSprite
+from objects.sprite.Sprite import Sprite
 
 
 class Node:
@@ -11,40 +13,99 @@ class Node:
     ) -> None:
         self.coord = coord
         self.position = position
+
         self.tile = Button(
-            pygame.image.load(ImagePath.BLACK_SQUARE),
+            pygame.image.load(ImagePath.NEUTRAL),
             position,
             left_click_callback=(self.on_left_click, [], {}),
             right_click_callback=(self.on_right_click, [], {}),
         )
 
-        self.tree = pygame.image.load(ImagePath.TREE)
-        self.tent = pygame.image.load(ImagePath.TENT)
+        self.tile.sprite.scale = 0.35
 
+        self.tile.active = False
+
+        self.tree_start_animation = AnimationSprite(
+            ImagePath.TREE_START_ANIMATION, (0, 0), 0.35, 51, 0.02
+        )
+
+        self.tent_start_animation = AnimationSprite(
+            ImagePath.TENT_START_ANIMATION, (0, 0), 0.35, 29, 0.02
+        )
+
+        self.tent_hide_animation = AnimationSprite(
+            ImagePath.TENT_HIDE_ANIMATION, (0, 0), 0.35, 16, 0.02
+        )
+
+        self.neutral = Sprite(pygame.image.load(ImagePath.NEUTRAL), position, 0.35)
+
+        self.grass = Sprite(
+            pygame.image.load(ImagePath.GRASS), position, 0.35, (204, 214, 125)
+        )
+
+        self._prev_state = state
+        self._state = state
         self.set_state(state)
 
     def update(self, screen: pygame.Surface):
         self.tile.update(screen)
 
         if self._state == NodeState.TREE:
-            screen.blit(self.tree, (self.position[0], self.position[1] - 10))
+            self.tree_start_animation.position = (
+                self.position[0],
+                self.position[1] - 8,
+            )
+            self.tree_start_animation.update(screen)
         elif self._state == NodeState.TENT:
-            screen.blit(self.tent, (self.position[0], self.position[1]))
+            self.grass.position = self.position
+            self.grass.update(screen)
+
+            self.tent_start_animation.position = (
+                self.position[0],
+                self.position[1] - 9,
+            )
+
+            self.tent_start_animation.update(screen)
+        elif self._state == NodeState.MARK:
+            self.grass.position = self.position
+            self.grass.update(screen)
+
+            if self._prev_state == NodeState.TENT:
+                self.tent_hide_animation.position = (
+                    self.position[0],
+                    self.position[1] - 9,
+                )
+
+                self.tent_hide_animation.update(screen)
+        elif self._state == NodeState.EMPTY:
+            self.neutral.position = self.position
+            self.neutral.update(screen)
+
+            if self._prev_state == NodeState.TENT:
+                self.tent_hide_animation.position = (
+                    self.position[0],
+                    self.position[1] - 9,
+                )
+
+                self.tent_hide_animation.update(screen)
 
     def get_state(self) -> int:
         return self._state
 
-    def set_state(self, state: int):
+    def set_state(self, state: int, immediately=False):
+        self._prev_state = self._state
         self._state = state
 
         if self._state == NodeState.EMPTY:
-            self.tile.image = pygame.image.load(ImagePath.BLACK_SQUARE)
+            if self._prev_state == NodeState.TENT:
+                self.tent_hide_animation.play(immediately)
         elif self._state == NodeState.TREE:
-            self.tile.image = pygame.image.load(ImagePath.GREEN_SQUARE)
+            self.tree_start_animation.play(immediately)
         elif self._state == NodeState.MARK:
-            self.tile.image = pygame.image.load(ImagePath.GREEN_SQUARE)
+            if self._prev_state == NodeState.TENT:
+                self.tent_hide_animation.play(immediately)
         elif self._state == NodeState.TENT:
-            self.tile.image = pygame.image.load(ImagePath.GREEN_SQUARE)
+            self.tent_start_animation.play(immediately)
 
     def on_left_click(self):
         if self._state == NodeState.TENT:

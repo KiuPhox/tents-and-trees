@@ -14,6 +14,8 @@ TEXT_DEFAULT_COLOR = (127, 79, 65)
 TEXT_CORRECT_COLOR = (201, 167, 153)
 TEXT_WRONG_COLOR = (255, 0, 0)
 
+NODE_SIZE = 57
+
 
 class Grid:
     def start(self):
@@ -47,8 +49,8 @@ class Grid:
             row = []
             for x in range(cols):
                 pos = (
-                    (x - cols / 2) * 65 + ScreenSize.WIDTH / 2,
-                    (y - rows / 2) * 65 + ScreenSize.HEIGHT / 2,
+                    (x + 0.5 - cols / 2) * NODE_SIZE,
+                    (y + 0.5 - rows / 2) * NODE_SIZE,
                 )
                 coord = (x, y)
 
@@ -63,8 +65,8 @@ class Grid:
                 str(self.initial_rows_index[i]),
                 self.font,
                 (
-                    (i - cols / 2) * 65 + 32 + ScreenSize.WIDTH / 2,
-                    ScreenSize.HEIGHT / 2 - (cols / 2 + 0.5) * 64,
+                    (i - cols / 2) * NODE_SIZE + 32 + ScreenSize.WIDTH / 2,
+                    ScreenSize.HEIGHT / 2 - (cols / 2 + 0.5) * NODE_SIZE,
                 ),
             )
             text.color = TEXT_DEFAULT_COLOR
@@ -74,8 +76,8 @@ class Grid:
                 str(self.initial_cols_index[i]),
                 self.font,
                 (
-                    ScreenSize.WIDTH / 2 - (rows / 2 + 0.5) * 64,
-                    (i - rows / 2) * 65 + 32 + ScreenSize.HEIGHT / 2,
+                    ScreenSize.WIDTH / 2 - (rows / 2 + 0.5) * NODE_SIZE,
+                    (i - rows / 2) * NODE_SIZE + 32 + ScreenSize.HEIGHT / 2,
                 ),
             )
             text.color = TEXT_DEFAULT_COLOR
@@ -123,10 +125,12 @@ class Grid:
             else:
                 self.cols_text[i].color = TEXT_DEFAULT_COLOR
 
-    def update_grid(self):
+    def update_grid(self, immediately=False):
         for row in self.grid:
             for node in row:
-                node.set_state(self.current_matrix[node.coord[1]][node.coord[0]])
+                node.set_state(
+                    self.current_matrix[node.coord[1]][node.coord[0]], immediately
+                )
 
     def get_col_tents(self, col: int):
         tents = 0

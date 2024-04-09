@@ -1,11 +1,14 @@
 class ImagePath:
     IMAGE = "./assets/images/"
     BACKGROUND = IMAGE + "background.png"
-    BLACK_SQUARE = IMAGE + "black_square.png"
-    GREEN_SQUARE = IMAGE + "green_square.png"
+    NEUTRAL = IMAGE + "neutral.png"
+    GRASS = IMAGE + "grass.png"
     TREE = IMAGE + "tree.png"
     TENT = IMAGE + "tent.png"
     GAME_LOGO = IMAGE + "game_logo.png"
+    TREE_START_ANIMATION = IMAGE + "tree_start"
+    TENT_START_ANIMATION = IMAGE + "tent_start"
+    TENT_HIDE_ANIMATION = IMAGE + "tent_hide"
 
 
 class FontPath:
