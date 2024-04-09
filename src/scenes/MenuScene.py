@@ -8,6 +8,9 @@ from managers.GameManager import GameManager
 
 from objects.button.Button import Button
 
+LEVEL_COLUMNS = 10
+
+
 class MenuScene:
     def __init__(self, screen):
         self.screen = screen
@@ -23,9 +26,15 @@ class MenuScene:
 
         for i in range(level_count):
             button = Button(
-                None, (ScreenSize.WIDTH / 2 + (i - level_count / 2) * 60, ScreenSize.HEIGHT / 2), f"{i + 1}",
+                None,
+                (
+                    ScreenSize.WIDTH / 2 + (i % LEVEL_COLUMNS - LEVEL_COLUMNS / 2) * 60,
+                    ScreenSize.HEIGHT / 2
+                    + (i // LEVEL_COLUMNS - level_count / LEVEL_COLUMNS / 2) * 60,
+                ),
+                f"{i + 1}",
                 pygame.font.Font(FontPath.TT_FORS, 40),
-                (self.on_level_button_click, (i,), {})
+                (self.on_level_button_click, (i,), {}),
             )
 
             button.text.color = (127, 79, 65)

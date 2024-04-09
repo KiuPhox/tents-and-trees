@@ -13,6 +13,7 @@ from objects.button.Button import Button
 
 from ai.searching import Searching
 
+
 class GameScene:
     def __init__(self, screen):
         self.screen = screen
@@ -83,9 +84,9 @@ class GameScene:
         self.grid.create()
 
         self.searching = Searching(
-            self.grid.initial_matrix, 
-            self.grid.initial_rows_index, 
-            self.grid.initial_cols_index
+            self.grid.initial_matrix,
+            self.grid.initial_rows_index,
+            self.grid.initial_cols_index,
         )
 
     def reset_searching(self):
@@ -110,7 +111,9 @@ class GameScene:
         if self.solution_index > 0:
             self.solution_index -= 1
 
-            self.grid.current_matrix = copy.deepcopy(solution[self.solution_index].board)
+            self.grid.current_matrix = copy.deepcopy(
+                solution[self.solution_index].board
+            )
             self.grid.update_ui()
             self.grid.update_grid()
 
@@ -119,7 +122,9 @@ class GameScene:
         if self.solution_index < len(solution) - 1:
             self.solution_index += 1
 
-            self.grid.current_matrix = copy.deepcopy(solution[self.solution_index].board)
+            self.grid.current_matrix = copy.deepcopy(
+                solution[self.solution_index].board
+            )
             self.grid.update_ui()
             self.grid.update_grid()
 
