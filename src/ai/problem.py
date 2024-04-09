@@ -1,7 +1,10 @@
 from ai.state import State
 from objects.Node import NodeState
 
-def get_adjacent_positions(position: tuple[int, int], size: tuple[int, int]) -> list[tuple[int, int]]:
+
+def get_adjacent_positions(
+    position: tuple[int, int], size: tuple[int, int]
+) -> list[tuple[int, int]]:
     res = []
 
     for i in range(-1, 2):
@@ -19,7 +22,10 @@ def get_adjacent_positions(position: tuple[int, int], size: tuple[int, int]) -> 
 
     return res
 
-def get_horizontal_and_verticle_positions(position: tuple[int, int], size: tuple[int, int]) -> list[tuple[int, int]]:
+
+def get_horizontal_and_vertical_positions(
+    position: tuple[int, int], size: tuple[int, int]
+) -> list[tuple[int, int]]:
     res = []
 
     for i in range(-1, 2):
@@ -48,6 +54,7 @@ def get_horizontal_and_verticle_positions(position: tuple[int, int], size: tuple
 
     return res
 
+
 def tent_assignable(state: State, position: tuple[int, int]) -> bool:
     node_state = state.board[position[0]][position[1]]
 
@@ -56,18 +63,22 @@ def tent_assignable(state: State, position: tuple[int, int]) -> bool:
     if node_state != NodeState.EMPTY and node_state != NodeState.MARK:
         return False
 
-    for adj_pos in get_adjacent_positions(position, (len(state.board), len(state.board[0]))):
+    for adj_pos in get_adjacent_positions(
+        position, (len(state.board), len(state.board[0]))
+    ):
         if state.board[adj_pos[0]][adj_pos[1]] == NodeState.TENT:
             return False
-        
-    for hor_vert_pos in get_horizontal_and_verticle_positions(position, (len(state.board), len(state.board[0]))):
+
+    for hor_vert_pos in get_horizontal_and_vertical_positions(
+        position, (len(state.board), len(state.board[0]))
+    ):
         if state.board[hor_vert_pos[0]][hor_vert_pos[1]] == NodeState.TREE:
             assignable = True
             break
 
     if not assignable:
         return False
-    
+
     for i in range(len(state.rows)):
         if state.get_col_tents(i) > state.rows[i]:
             return False
@@ -75,9 +86,10 @@ def tent_assignable(state: State, position: tuple[int, int]) -> bool:
     for i in range(len(state.cols)):
         if state.get_row_tents(i) > state.cols[i]:
             return False
-    
+
     return True
-    
+
+
 def get_possible_states(state: State) -> list[State]:
     res = []
 
