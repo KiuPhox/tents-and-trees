@@ -20,6 +20,7 @@ class Game:
 
         self.screen = pygame.display.set_mode((ScreenSize.WIDTH, ScreenSize.HEIGHT))
         self.clock = pygame.time.Clock()
+        pygame.display.set_icon(pygame.image.load(ImagePath.GAME_LOGO))
 
         self.init_scene_manager()
 

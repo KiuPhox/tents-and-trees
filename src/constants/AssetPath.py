@@ -5,6 +5,7 @@ class ImagePath:
     GREEN_SQUARE = IMAGE + "green_square.png"
     TREE = IMAGE + "tree.png"
     TENT = IMAGE + "tent.png"
+    GAME_LOGO = IMAGE + "game_logo.png"
 
 
 class FontPath:
