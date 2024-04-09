@@ -22,5 +22,12 @@ class InputManager:
         )
 
     @staticmethod
+    def get_mouse_up(input: int):
+        return (
+            not InputManager.currentMouseState[input]
+            and InputManager.previousMouseState[input]
+        )
+
+    @staticmethod
     def get_mouse_position():
         return pygame.mouse.get_pos()
