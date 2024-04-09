@@ -15,10 +15,10 @@ class State:
             return False
 
         return self.board == value.board
-    
+
     def __bool__(self):
         return len(self.board) != 0
-    
+
     def get_tents(self) -> int:
         tents = 0
         for row in self.board:
@@ -26,21 +26,21 @@ class State:
                 if cell == NodeState.TENT:
                     tents += 1
         return tents
-    
+
     def get_row_tents(self, row: int) -> int:
         tents = 0
         for cell in self.board[row]:
             if cell == NodeState.TENT:
                 tents += 1
         return tents
-    
+
     def get_col_tents(self, col: int) -> int:
         tents = 0
         for row in self.board:
             if row[col] == NodeState.TENT:
                 tents += 1
         return tents
-    
+
     def is_goal_state(self) -> bool:
         for i in range(len(self.cols)):
             if self.get_col_tents(i) != self.rows[i]:

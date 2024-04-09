@@ -3,6 +3,7 @@ import time
 from ai.state import State
 from ai.problem import get_possible_states
 
+
 class Searching:
     def __init__(self, board: list[list[int]], rows: list[int], cols: list[int]):
         self.state = State(board, rows, cols)
@@ -27,7 +28,7 @@ class Searching:
                 self.time = time.time() - start_time
 
                 return self.solution
-            
+
             possible_states = get_possible_states(current_state)
 
             for state in possible_states:
@@ -35,7 +36,7 @@ class Searching:
                     queue.append(state)
 
         return self.solution
-    
+
     def dfs(self) -> None:
         start_time = time.time()
 
@@ -54,7 +55,7 @@ class Searching:
                 self.time = time.time() - start_time
 
                 return self.solution
-            
+
             possible_states = get_possible_states(current_state)
 
             for state in possible_states:
@@ -62,7 +63,7 @@ class Searching:
                     stack.append(state)
 
         return self.solution
-    
+
     def reset(self) -> None:
         self.state = State(self.state.board, self.state.rows, self.state.cols)
         self.solution = []
