@@ -29,13 +29,9 @@ class Tile:
         self.set_state(state)
 
     def create_button(self):
-        self.button = Button(
-            self.scene,
-            ImagePath.NEUTRAL,
-            "",
-            left_click_callback=(self.on_left_click, [], {}),
-            right_click_callback=(self.on_right_click, [], {}),
-        )
+        self.button = Button(self.scene, ImagePath.NEUTRAL)
+        self.button.left_click_callback = (self.on_left_click, [], {})
+        self.button.right_click_callback = (self.on_right_click, [], {})
         self.button.scale = (0.35, 0.35)
         self.button.position = self.position
         self.button.active = False

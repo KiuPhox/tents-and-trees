@@ -26,31 +26,29 @@ class Screen:
             mouse_position[1] - self.height / 2,
         )
 
-        if InputManager.get_mouse_down(0):
-            for button in UIManager.buttons:
-                touch_zone = button.touch_zone()
+        for button in UIManager.buttons:
+            touch_zone = button.touch_zone()
 
-                if (
-                    mouse_position[0] >= touch_zone[0]
-                    and mouse_position[1] >= touch_zone[1]
-                    and mouse_position[0] <= touch_zone[2]
-                    and mouse_position[1] <= touch_zone[3]
-                ):
+            if (
+                mouse_position[0] >= touch_zone[0]
+                and mouse_position[1] >= touch_zone[1]
+                and mouse_position[0] <= touch_zone[2]
+                and mouse_position[1] <= touch_zone[3]
+            ):
+                if not button.on_mouse_enter:
+                    button.on_enter()
+                    button.on_mouse_enter = True
+
+                if InputManager.get_mouse_down(0):
                     button.on_left_click()
                     return
-
-        if InputManager.get_mouse_down(2):
-            for button in UIManager.buttons:
-                touch_zone = button.touch_zone()
-
-                if (
-                    mouse_position[0] >= touch_zone[0]
-                    and mouse_position[1] >= touch_zone[1]
-                    and mouse_position[0] <= touch_zone[2]
-                    and mouse_position[1] <= touch_zone[3]
-                ):
+                elif InputManager.get_mouse_down(2):
                     button.on_right_click()
                     return
+
+            elif button.on_mouse_enter:
+                button.on_exit()
+                button.on_mouse_enter = False
 
     def render_sprites(self):
         for sprite in SpriteManager.sprites:

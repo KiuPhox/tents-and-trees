@@ -15,6 +15,8 @@ class Button(GameObject):
         string: str = "",
         left_click_callback=None,
         right_click_callback=None,
+        on_enter_callback=None,
+        on_exit_callback=None,
     ) -> None:
         super().__init__(scene)
 
@@ -31,8 +33,11 @@ class Button(GameObject):
 
         self.left_click_callback = left_click_callback
         self.right_click_callback = right_click_callback
+        self.on_enter_callback = on_enter_callback
+        self.on_exit_callback = on_exit_callback
 
         self.touch_zone_size = (0, 0)
+        self.on_mouse_enter = False
 
         UIManager.register_button(self)
 
@@ -48,6 +53,16 @@ class Button(GameObject):
     def on_right_click(self) -> None:
         if self.right_click_callback is not None:
             function, args, kwargs = self.right_click_callback
+            function(*args, **kwargs)
+
+    def on_enter(self) -> None:
+        if self.on_enter_callback is not None:
+            function, args, kwargs = self.on_enter_callback
+            function(*args, **kwargs)
+
+    def on_exit(self) -> None:
+        if self.on_exit_callback is not None:
+            function, args, kwargs = self.on_exit_callback
             function(*args, **kwargs)
 
     def destroy(self):

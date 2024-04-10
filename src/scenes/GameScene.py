@@ -84,12 +84,8 @@ class GameScene(Scene):
         self.node.add_component(self.node_text)
 
     def create_bfs_button(self):
-        self.bfs_button = Button(
-            self,
-            None,
-            "BFS",
-            left_click_callback=(self.on_bfs_button_click, [], {}),
-        )
+        self.bfs_button = Button(self, string="BFS")
+        self.bfs_button.left_click_callback = (self.on_bfs_button_click, [], {})
         self.bfs_button.touch_zone_size = (70, 30)
         self.bfs_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.bfs_button.position = (
@@ -99,12 +95,8 @@ class GameScene(Scene):
         self.bfs_button.label.color = (127, 79, 65)
 
     def create_dfs_button(self):
-        self.dfs_button = Button(
-            self,
-            None,
-            "DFS",
-            left_click_callback=(self.on_dfs_button_click, [], {}),
-        )
+        self.dfs_button = Button(self, string="DFS")
+        self.dfs_button.left_click_callback = (self.on_dfs_button_click, [], {})
         self.dfs_button.touch_zone_size = (70, 30)
         self.dfs_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.dfs_button.position = (
@@ -114,12 +106,8 @@ class GameScene(Scene):
         self.dfs_button.label.color = (127, 79, 65)
 
     def create_next_button(self):
-        self.next_button = Button(
-            self,
-            ImagePath.NEXT_BTN,
-            "",
-            left_click_callback=(self.on_next_button_click, [], {}),
-        )
+        self.next_button = Button(self, ImagePath.NEXT_BTN)
+        self.next_button.left_click_callback = (self.on_next_button_click, [], {})
         self.next_button.scale = (0.5, 0.5)
         self.next_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.next_button.position = (
@@ -129,11 +117,11 @@ class GameScene(Scene):
         self.next_button.sprite.color = (127, 79, 65)
 
     def create_previous_button(self):
-        self.previous_button = Button(
-            self,
-            ImagePath.PREV_BTN,
-            "",
-            left_click_callback=(self.on_previous_button_click, [], {}),
+        self.previous_button = Button(self, ImagePath.PREV_BTN)
+        self.previous_button.left_click_callback = (
+            self.on_previous_button_click,
+            [],
+            {},
         )
         self.previous_button.scale = (0.5, 0.5)
         self.previous_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
@@ -144,12 +132,8 @@ class GameScene(Scene):
         self.previous_button.sprite.color = (127, 79, 65)
 
     def create_exit_button(self):
-        self.exit_button = Button(
-            self,
-            None,
-            "Exit",
-            left_click_callback=(SceneManager.change_scene, ["MenuScene"], {}),
-        )
+        self.exit_button = Button(self, string="Exit")
+        self.left_click_callback = (SceneManager.change_scene, ["MenuScene"], {})
         self.exit_button.touch_zone_size = (80, 50)
         self.exit_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.exit_button.position = (
