@@ -1,7 +1,7 @@
 import math
 
+from engine.GameObject import GameObject
 from managers.EaseManager import Ease, EaseManager
-from objects.sprite.Sprite import Sprite
 
 from utils.Time import Time
 
@@ -21,13 +21,17 @@ class TweenManager:
 
 class Tween:
     def __init__(
-        self, sprite: Sprite, scale: float, duration: float, ease=Ease.LINEAR
+        self,
+        game_object: GameObject,
+        scale: tuple[float, float],
+        duration: float,
+        ease=Ease.LINEAR,
     ) -> None:
-        self.sprite = sprite
+        self.game_object = game_object
         self.ease = ease
         self.duration = duration
 
-        self.start_scale = sprite.scale
+        self.start_scale = self.game_object.scale
         self.end_scale = scale
 
         self.start_time = Time.time
@@ -38,9 +42,15 @@ class Tween:
         elapsed = Time.time - self.start_time
         t = min(elapsed / self.duration, 1)
 
-        self.sprite.scale = self.start_scale + EaseManager.ease_func(self.ease, t) * (
-            self.end_scale - self.start_scale
+        xScale = self.start_scale[0] + EaseManager.ease_func(self.ease, t) * (
+            self.end_scale[0] - self.start_scale[0]
         )
+
+        yScale = self.start_scale[1] + EaseManager.ease_func(self.ease, t) * (
+            self.end_scale[1] - self.start_scale[1]
+        )
+
+        self.game_object.scale = (xScale, yScale)
 
         if t == 1:
             self.destroy()

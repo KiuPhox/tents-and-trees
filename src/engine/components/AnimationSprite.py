@@ -1,26 +1,27 @@
 import pygame
 
-from constants.GameConfig import ScreenSize
-from objects.sprite.Sprite import Sprite
+from engine.components.Sprite import Sprite
+
+from managers.SpriteManager import SpriteManager
 from utils.Time import Time
 
 
 class AnimationSprite(Sprite):
-    def __init__(self, image_path, pos, scale=1, frame_count=1, frame_duration=0.1):
-        # get all the frames from the image folder path
+    def __init__(self, gameObject, image_path: str, frame_count=1, frame_duration=0.1):
+        super().__init__(gameObject)
+
         self.frame_count = frame_count
         self.frame_duration = frame_duration
         self.frames = [
             pygame.image.load(f"{image_path}/{i}.png") for i in range(frame_count)
         ]
 
-        super().__init__(self.frames[0], pos, scale)
-
+        self.image = self.frames[0]
         self.current_frame = 0
         self.frame_time = 0
         self.playing = False
 
-    def update(self, screen: pygame.Surface):
+    def update(self):
         if self.playing:
             self.frame_time += Time.deltaTime
 
@@ -33,8 +34,6 @@ class AnimationSprite(Sprite):
                     self.stop()
 
         self.image = self.frames[self.current_frame]
-
-        super().update(screen)
 
     def play(self, immediately=False):
         if immediately:

@@ -1,6 +1,6 @@
 import copy
 
-from objects.Node import NodeState
+from objects.Tile import TileState
 
 
 class State:
@@ -23,21 +23,21 @@ class State:
         tents = 0
         for row in self.board:
             for cell in row:
-                if cell == NodeState.TENT:
+                if cell == TileState.TENT:
                     tents += 1
         return tents
 
     def get_row_tents(self, row: int) -> int:
         tents = 0
         for cell in self.board[row]:
-            if cell == NodeState.TENT:
+            if cell == TileState.TENT:
                 tents += 1
         return tents
 
     def get_col_tents(self, col: int) -> int:
         tents = 0
         for row in self.board:
-            if row[col] == NodeState.TENT:
+            if row[col] == TileState.TENT:
                 tents += 1
         return tents
 

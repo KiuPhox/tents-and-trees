@@ -2,6 +2,7 @@ import pygame
 from sys import exit
 
 
+from engine.Screen import Screen
 from utils.Time import Time
 
 from constants.GameConfig import ScreenSize
@@ -20,7 +21,10 @@ class Game:
         pygame.init()
         pygame.display.set_caption("Tents and Trees")
 
-        self.screen = pygame.display.set_mode((ScreenSize.WIDTH, ScreenSize.HEIGHT))
+        self.screen = Screen(ScreenSize.WIDTH, ScreenSize.HEIGHT)
+
+        # self.screen = pygame.display.set_mode((ScreenSize.WIDTH, ScreenSize.HEIGHT))
+
         self.clock = pygame.time.Clock()
         pygame.display.set_icon(pygame.image.load(ImagePath.GAME_LOGO))
 
@@ -31,13 +35,14 @@ class Game:
         TweenManager.init()
 
     def init_scene_manager(self):
-        SceneManager.scenes["GameScene"] = GameScene(self.screen)
-        SceneManager.scenes["MenuScene"] = MenuScene(self.screen)
+        GameScene(self.screen)
+        MenuScene(self.screen)
 
         SceneManager.change_scene("MenuScene")
 
     def render(self):
         SceneManager.update()
+        self.screen.render()
         pygame.display.update()
 
     def update(self):

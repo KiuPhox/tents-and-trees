@@ -1,5 +1,5 @@
 from ai.state import State
-from objects.Node import NodeState
+from objects.Tile import TileState
 
 
 def get_adjacent_positions(
@@ -60,19 +60,19 @@ def tent_assignable(state: State, position: tuple[int, int]) -> bool:
 
     assignable = False
 
-    if node_state != NodeState.EMPTY and node_state != NodeState.MARK:
+    if node_state != TileState.EMPTY and node_state != TileState.MARK:
         return False
 
     for adj_pos in get_adjacent_positions(
         position, (len(state.board), len(state.board[0]))
     ):
-        if state.board[adj_pos[0]][adj_pos[1]] == NodeState.TENT:
+        if state.board[adj_pos[0]][adj_pos[1]] == TileState.TENT:
             return False
 
     for hor_vert_pos in get_horizontal_and_vertical_positions(
         position, (len(state.board), len(state.board[0]))
     ):
-        if state.board[hor_vert_pos[0]][hor_vert_pos[1]] == NodeState.TREE:
+        if state.board[hor_vert_pos[0]][hor_vert_pos[1]] == TileState.TREE:
             assignable = True
             break
 
@@ -97,7 +97,7 @@ def get_possible_states(state: State) -> list[State]:
         for j in range(len(state.board[i])):
             if tent_assignable(state, (i, j)):
                 new_state = State(state.board, state.rows, state.cols)
-                new_state.board[i][j] = NodeState.TENT
+                new_state.board[i][j] = TileState.TENT
 
                 new_state.previous_state = state
 

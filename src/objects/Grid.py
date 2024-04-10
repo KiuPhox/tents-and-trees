@@ -5,19 +5,23 @@ from constants.GameConfig import ScreenSize
 from constants.AssetPath import ImagePath
 from constants.AssetPath import FontPath
 
+from engine.GameObject import GameObject
+from engine.components.Text import Text
 from managers.GameManager import GameManager
 
-from objects.Node import Node, NodeState
-from objects.Text import Text
+from objects.Tile import Tile, TileState
 
 TEXT_DEFAULT_COLOR = (127, 79, 65)
 TEXT_CORRECT_COLOR = (201, 167, 153)
 TEXT_WRONG_COLOR = (255, 0, 0)
 
-NODE_SIZE = 57
+TILE_SIZE = 57
 
 
 class Grid:
+    def __init__(self, scene) -> None:
+        self.scene = scene
+
     def start(self):
         self.initial_matrix = []
         self.current_matrix = []
@@ -30,7 +34,7 @@ class Grid:
         self.rows_text = []
         self.cols_text = []
 
-        self.grid: list[list[Node]] = []
+        self.grid: list[list[Tile]] = []
 
         self.font = pygame.font.Font(FontPath.TT_FORS, 36)
 
@@ -49,38 +53,44 @@ class Grid:
             row = []
             for x in range(cols):
                 pos = (
-                    (x + 0.5 - cols / 2) * NODE_SIZE,
-                    (y + 0.5 - rows / 2) * NODE_SIZE,
+                    (x + 0.5 - cols / 2) * TILE_SIZE,
+                    (y + 0.5 - rows / 2) * TILE_SIZE,
                 )
                 coord = (x, y)
 
-                node = Node(coord, pos, self.initial_matrix[y][x])
-                node.on_tile_state_changed = self.on_tile_state_changed
+                tile = Tile(coord, pos, self.initial_matrix[y][x], self.scene)
+                tile.on_tile_state_changed = self.on_tile_state_changed
 
-                row.append(node)
+                row.append(tile)
             self.grid.append(row)
 
         for i in range(rows):
-            text = Text(
-                str(self.initial_rows_index[i]),
-                self.font,
-                (
-                    (i - cols / 2) * NODE_SIZE + 32 + ScreenSize.WIDTH / 2,
-                    ScreenSize.HEIGHT / 2 - (cols / 2 + 0.5) * NODE_SIZE,
-                ),
+            game_object = GameObject(self.scene)
+            game_object.position = (
+                (i - cols / 2 + 0.5) * TILE_SIZE,
+                -(cols / 2 + 0.5) * TILE_SIZE,
             )
+
+            text = Text(game_object)
+            text.text = str(self.initial_rows_index[i])
+            text.font = self.font
             text.color = TEXT_DEFAULT_COLOR
+
             self.rows_text.append(text)
+
         for i in range(cols):
-            text = Text(
-                str(self.initial_cols_index[i]),
-                self.font,
-                (
-                    ScreenSize.WIDTH / 2 - (rows / 2 + 0.5) * NODE_SIZE,
-                    (i - rows / 2) * NODE_SIZE + 32 + ScreenSize.HEIGHT / 2,
-                ),
+            game_object = GameObject(self.scene)
+            game_object.position = (
+                -(rows / 2 + 0.5) * TILE_SIZE,
+                (i - rows / 2 + 0.5) * TILE_SIZE,
             )
+
+            text = Text(game_object)
+
+            text.text = str(self.initial_cols_index[i])
+            text.font = self.font
             text.color = TEXT_DEFAULT_COLOR
+
             self.cols_text.append(text)
 
         self.update_ui()
@@ -92,17 +102,6 @@ class Grid:
 
         self.update_ui()
         self.update_grid(immediately)
-
-    def update(self, screen: pygame.Surface):
-        for row in self.grid:
-            for node in row:
-                node.update(screen)
-
-        for text in self.rows_text:
-            text.update(screen)
-
-        for text in self.cols_text:
-            text.update(screen)
 
     def on_tile_state_changed(self, coord: tuple[int, int], state: int):
         self.current_matrix[coord[1]][coord[0]] = state
@@ -127,21 +126,21 @@ class Grid:
 
     def update_grid(self, immediately=False):
         for row in self.grid:
-            for node in row:
-                node.set_state(
-                    self.current_matrix[node.coord[1]][node.coord[0]], immediately
+            for tile in row:
+                tile.set_state(
+                    self.current_matrix[tile.coord[1]][tile.coord[0]], immediately
                 )
 
     def get_col_tents(self, col: int):
         tents = 0
         for row in self.current_matrix:
-            if row[col] == NodeState.TENT:
+            if row[col] == TileState.TENT:
                 tents += 1
         return tents
 
     def get_row_tents(self, row: int):
         tents = 0
         for cell in self.current_matrix[row]:
-            if cell == NodeState.TENT:
+            if cell == TileState.TENT:
                 tents += 1
         return tents

@@ -3,54 +3,51 @@ import pygame
 from constants.AssetPath import FontPath, ImagePath
 from constants.GameConfig import ScreenSize
 
+from engine.GameObject import GameObject
+from engine.components.Sprite import Sprite
+from engine.components.AnimationSprite import AnimationSprite
+
 from managers.SceneManager import SceneManager
 from managers.GameManager import GameManager
 
-from objects.sprite.AnimationSprite import AnimationSprite
-from objects.sprite.Sprite import Sprite
-from objects.button.Button import Button
+from engine.Button import Button
+
+from scenes.Scene import Scene
 
 LEVEL_COLUMNS = 10
 
 
-class MenuScene:
+class MenuScene(Scene):
     def __init__(self, screen):
-        self.screen = screen
+        super().__init__("MenuScene", screen)
 
     def start(self):
-        self.bg = pygame.image.load(ImagePath.BACKGROUND)
-        self.bg.fill(
-            (245, 224, 205),
-            special_flags=pygame.BLEND_RGB_MULT,
-        )
-
-        self.level_buttons = []
-
         level_count = GameManager.get_level_count()
+
+        self.bg = GameObject(self)
+        self.bg.name = "Background"
+
+        bg_sprite = Sprite(self.bg)
+        bg_sprite.color = (245, 224, 205)
+        bg_sprite.set_sprite(ImagePath.BACKGROUND)
+
+        self.bg.add_component(bg_sprite)
 
         for i in range(level_count):
             button = Button(
-                None,
-                (
-                    ScreenSize.WIDTH / 2 + (i % LEVEL_COLUMNS - LEVEL_COLUMNS / 2) * 60,
-                    ScreenSize.HEIGHT / 2
-                    + (i // LEVEL_COLUMNS - level_count / LEVEL_COLUMNS / 2) * 60,
-                ),
+                self,
+                ImagePath.NEUTRAL,
                 f"{i + 1}",
-                pygame.font.Font(FontPath.TT_FORS, 40),
                 (self.on_level_button_click, (i,), {}),
             )
-
-            button.text.color = (127, 79, 65)
-
-            self.level_buttons.append(button)
-
-    def update(self):
-        self.screen.fill((0, 0, 0))
-        self.screen.blit(self.bg, (0, 0))
-
-        for button in self.level_buttons:
-            button.update(self.screen)
+            button.position = (
+                (i % LEVEL_COLUMNS - LEVEL_COLUMNS / 2 + 0.5) * 80,
+                (i // LEVEL_COLUMNS - level_count / LEVEL_COLUMNS / 2) * 80,
+            )
+            button.scale = (0.45, 0.45)
+            button.label.color = (255, 255, 255)
+            button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
+            button.name = f"Level {i + 1}"
 
     def on_level_button_click(self, i: int):
         GameManager.current_level = i + 1
