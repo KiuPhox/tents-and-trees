@@ -4,6 +4,8 @@ from managers.InputManager import InputManager
 from managers.SpriteManager import SpriteManager
 from managers.UIManager import UIManager
 
+from engine.components.Text import TextAlign
+
 
 class Screen:
     def __init__(self, width, height):
@@ -26,37 +28,29 @@ class Screen:
 
         if InputManager.get_mouse_down(0):
             for button in UIManager.buttons:
-                if button.sprite is None:
-                    return
+                touch_zone = button.touch_zone()
 
                 if (
-                    mouse_position[0] >= button.position[0] - button.sprite.width() / 2
-                    and mouse_position[0]
-                    <= button.position[0] + button.sprite.width() / 2
-                    and mouse_position[1]
-                    >= button.position[1] - button.sprite.height() / 2
-                    and mouse_position[1]
-                    <= button.position[1] + button.sprite.height() / 2
+                    mouse_position[0] >= touch_zone[0]
+                    and mouse_position[1] >= touch_zone[1]
+                    and mouse_position[0] <= touch_zone[2]
+                    and mouse_position[1] <= touch_zone[3]
                 ):
                     button.on_left_click()
+                    return
 
         if InputManager.get_mouse_down(2):
             for button in UIManager.buttons:
-                if button.sprite is None:
-                    return
+                touch_zone = button.touch_zone()
 
                 if (
-                    mouse_position[0] >= button.position[0] - button.sprite.width() / 2
-                    and mouse_position[0]
-                    <= button.position[0] + button.sprite.width() / 2
-                    and mouse_position[1]
-                    >= button.position[1] - button.sprite.height() / 2
-                    and mouse_position[1]
-                    <= button.position[1] + button.sprite.height() / 2
+                    mouse_position[0] >= touch_zone[0]
+                    and mouse_position[1] >= touch_zone[1]
+                    and mouse_position[0] <= touch_zone[2]
+                    and mouse_position[1] <= touch_zone[3]
                 ):
                     button.on_right_click()
-
-        pass
+                    return
 
     def render_sprites(self):
         for sprite in SpriteManager.sprites:
@@ -89,9 +83,16 @@ class Screen:
 
             scaled_text = pygame.transform.scale(text.surface, size)
 
+            if text.align == TextAlign.LEFT:
+                offset = (0, -size[1] / 2)
+            elif text.align == TextAlign.CENTER:
+                offset = (-size[0] / 2, -size[1] / 2)
+            elif text.align == TextAlign.RIGHT:
+                offset = (-size[0], -size[1] / 2)
+
             position = (
-                game_object.position[0] - size[0] / 2 + self.width / 2,
-                game_object.position[1] - size[1] / 2 + self.height / 2,
+                game_object.position[0] + offset[0] + self.width / 2,
+                game_object.position[1] + offset[1] + self.height / 2,
             )
 
             self.screen.blit(scaled_text, position)

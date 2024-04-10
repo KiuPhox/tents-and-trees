@@ -11,9 +11,16 @@ class Text(Component):
         self.text = ""
         self.font = None
         self.color = (0, 0, 0)
+        self.align = TextAlign.CENTER
 
         UIManager.register_text(self)
 
     def destroy(self):
         UIManager.unregister_text(self)
         return super().destroy()
+
+
+class TextAlign:
+    LEFT = "left"
+    CENTER = "center"
+    RIGHT = "right"

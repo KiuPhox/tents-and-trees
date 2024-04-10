@@ -18,6 +18,8 @@ class Button(GameObject):
     ) -> None:
         super().__init__(scene)
 
+        self.sprite = None
+
         if image is not None:
             self.sprite = Sprite(self)
             self.sprite.set_sprite(image)
@@ -29,6 +31,8 @@ class Button(GameObject):
 
         self.left_click_callback = left_click_callback
         self.right_click_callback = right_click_callback
+
+        self.touch_zone_size = (0, 0)
 
         UIManager.register_button(self)
 
@@ -49,3 +53,19 @@ class Button(GameObject):
     def destroy(self):
         UIManager.unregister_button(self)
         super().destroy()
+
+    def touch_zone(self) -> tuple[float, float]:
+        if self.sprite is None:
+            return (
+                self.position[0] - self.touch_zone_size[0] / 2,
+                self.position[1] - self.touch_zone_size[1] / 2,
+                self.position[0] + self.touch_zone_size[0] / 2,
+                self.position[1] + self.touch_zone_size[1] / 2,
+            )
+
+        return (
+            self.position[0] - self.sprite.width() / 2,
+            self.position[1] - self.sprite.height() / 2,
+            self.position[0] + self.sprite.width() / 2,
+            self.position[1] + self.sprite.height() / 2,
+        )

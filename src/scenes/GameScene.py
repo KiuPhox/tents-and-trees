@@ -7,7 +7,7 @@ from constants.AssetPath import FontPath, ImagePath
 from engine.Button import Button
 from engine.GameObject import GameObject
 from engine.components.Sprite import Sprite
-from engine.components.Text import Text
+from engine.components.Text import Text, TextAlign
 
 from managers.SceneManager import SceneManager
 from managers.GameManager import GameManager
@@ -60,9 +60,10 @@ class GameScene(Scene):
 
     def create_time_text(self):
         self.time = GameObject(self)
-        self.time.position = (-ScreenSize.WIDTH / 2 + 100, ScreenSize.HEIGHT / 2 - 50)
+        self.time.position = (-ScreenSize.WIDTH / 2 + 50, ScreenSize.HEIGHT / 2 - 50)
 
         self.time_text = Text(self.time)
+        self.time_text.align = TextAlign.LEFT
         self.time_text.text = f"Time: 0"
         self.time_text.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.time_text.color = (127, 79, 65)
@@ -72,77 +73,77 @@ class GameScene(Scene):
     def create_bfs_button(self):
         self.bfs_button = Button(
             self,
-            ImagePath.NEUTRAL,
+            None,
             "BFS",
             left_click_callback=(self.on_bfs_button_click, [], {}),
         )
-        self.bfs_button.scale = (1, 0.5)
+        self.bfs_button.touch_zone_size = (70, 30)
         self.bfs_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.bfs_button.position = (
             ScreenSize.WIDTH / 2 - 100,
             -ScreenSize.HEIGHT / 2 + 50,
         )
-        self.bfs_button.label.color = (255, 255, 255)
+        self.bfs_button.label.color = (127, 79, 65)
 
     def create_dfs_button(self):
         self.dfs_button = Button(
             self,
-            ImagePath.NEUTRAL,
+            None,
             "DFS",
             left_click_callback=(self.on_dfs_button_click, [], {}),
         )
-        self.dfs_button.scale = (1, 0.5)
+        self.dfs_button.touch_zone_size = (70, 30)
         self.dfs_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.dfs_button.position = (
             ScreenSize.WIDTH / 2 - 100,
-            -ScreenSize.HEIGHT / 2 + 150,
+            -ScreenSize.HEIGHT / 2 + 100,
         )
-        self.dfs_button.label.color = (255, 255, 255)
+        self.dfs_button.label.color = (127, 79, 65)
 
     def create_next_button(self):
         self.next_button = Button(
             self,
-            ImagePath.NEUTRAL,
+            None,
             "Next",
             left_click_callback=(self.on_next_button_click, [], {}),
         )
-        self.next_button.scale = (1, 0.6)
+        self.next_button.touch_zone_size = (120, 60)
         self.next_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.next_button.position = (
             100,
             ScreenSize.HEIGHT / 2 - 50,
         )
-        self.next_button.label.color = (255, 255, 255)
+        self.next_button.label.color = (127, 79, 65)
 
     def create_previous_button(self):
         self.previous_button = Button(
             self,
-            ImagePath.NEUTRAL,
+            None,
             "Previous",
             left_click_callback=(self.on_previous_button_click, [], {}),
         )
-        self.previous_button.scale = (1, 0.6)
+        self.previous_button.touch_zone_size = (150, 60)
         self.previous_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.previous_button.position = (
             -100,
             ScreenSize.HEIGHT / 2 - 50,
         )
-        self.previous_button.label.color = (255, 255, 255)
+        self.previous_button.label.color = (127, 79, 65)
 
     def create_exit_button(self):
         self.exit_button = Button(
             self,
-            ImagePath.NEUTRAL,
+            None,
             "Exit",
             left_click_callback=(SceneManager.change_scene, ["MenuScene"], {}),
         )
-        self.exit_button.scale = (1, 0.5)
+        self.exit_button.touch_zone_size = (80, 50)
         self.exit_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.exit_button.position = (
             ScreenSize.WIDTH / 2 - 100,
             ScreenSize.HEIGHT / 2 - 50,
         )
-        self.exit_button.label.color = (255, 255, 255)
+        self.exit_button.label.color = (127, 79, 65)
 
     def create_grid(self):
         self.grid = Grid(self)
