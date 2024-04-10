@@ -9,6 +9,7 @@ class Searching:
         self.state = State(board, rows, cols)
         self.solution = []
         self.time = 0
+        self.total_nodes = 0
 
     def bfs(self):
         start_time = time.time()
@@ -23,10 +24,11 @@ class Searching:
             if current_state.is_goal_state():
                 while current_state:
                     self.solution.insert(0, current_state)
+
                     current_state = current_state.previous_state
 
                 self.time = time.time() - start_time
-
+                self.total_nodes = len(visited) + len(queue)
                 return self.solution
 
             possible_states = get_possible_states(current_state)
@@ -50,10 +52,11 @@ class Searching:
             if current_state.is_goal_state():
                 while current_state:
                     self.solution.insert(0, current_state)
+
                     current_state = current_state.previous_state
 
                 self.time = time.time() - start_time
-
+                self.total_nodes = len(visited) + len(stack)
                 return self.solution
 
             possible_states = get_possible_states(current_state)

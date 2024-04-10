@@ -59,7 +59,7 @@ class Tile:
 
     def create_tent(self):
         self.tent_start = GameObject(self.scene)
-        self.tent_start.position = self.position
+        self.tent_start.position = (self.position[0], self.position[1] - 5)
         self.tent_start.scale = (0.35, 0.35)
 
         self.tent_start_animation = AnimationSprite(
@@ -68,7 +68,7 @@ class Tile:
         self.tent_start.add_component(self.tent_start_animation)
 
         self.tent_hide = GameObject(self.scene)
-        self.tent_hide.position = self.position
+        self.tent_hide.position = (self.position[0], self.position[1] - 5)
         self.tent_hide.scale = (0.35, 0.35)
 
         self.tent_hide_animation = AnimationSprite(

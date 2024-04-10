@@ -23,8 +23,6 @@ class Game:
 
         self.screen = Screen(ScreenSize.WIDTH, ScreenSize.HEIGHT)
 
-        # self.screen = pygame.display.set_mode((ScreenSize.WIDTH, ScreenSize.HEIGHT))
-
         self.clock = pygame.time.Clock()
         pygame.display.set_icon(pygame.image.load(ImagePath.GAME_LOGO))
 
