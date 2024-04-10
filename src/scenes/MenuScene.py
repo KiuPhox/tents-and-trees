@@ -42,7 +42,7 @@ class MenuScene(Scene):
             )
             button.position = (
                 (i % LEVEL_COLUMNS - LEVEL_COLUMNS / 2 + 0.5) * 80,
-                (i // LEVEL_COLUMNS - level_count / LEVEL_COLUMNS / 2) * 80,
+                (i // LEVEL_COLUMNS - level_count / LEVEL_COLUMNS / 2 + 0.5) * 80,
             )
             button.scale = (0.45, 0.45)
             button.label.color = (255, 255, 255)
