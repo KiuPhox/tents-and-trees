@@ -43,7 +43,7 @@ class MenuScene(Scene):
         )
         button.scale = (0.4, 0.4)
         button.sprite.color = Color.hsl_to_rgb(
-            (67, 0.52, 0.7 - i * (0.5 / level_count))
+            (67, 0.52, 0.7 - i * (0.6 / level_count))
         )
         button.label.color = (255, 255, 255)
         button.label.font = pygame.font.Font(FontPath.TT_FORS, 60)
