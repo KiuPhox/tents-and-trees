@@ -77,7 +77,10 @@ class Screen:
                 continue
 
             text.surface = text.font.render(text.text, True, text.color)
-            size = text.surface.get_size()
+            size = (
+                game_object.scale[0] * text.surface.get_width(),
+                game_object.scale[1] * text.surface.get_height(),
+            )
 
             scaled_text = pygame.transform.scale(text.surface, size)
 

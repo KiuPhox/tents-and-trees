@@ -49,7 +49,7 @@ class MenuScene(Scene):
             (67, 0.52, 0.7 - i * (0.5 / level_count))
         )
         button.label.color = (255, 255, 255)
-        button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
+        button.label.font = pygame.font.Font(FontPath.TT_FORS, 60)
         button.name = f"Level {i + 1}"
 
         button.left_click_callback = (self.on_level_button_click, (i,), {})
