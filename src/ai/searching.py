@@ -67,16 +67,44 @@ class Searching:
 
         return self.solution
 
+    def a_star(self) -> None:
+        start_time = time.time()
+
+        queue = [self.state]
+        visited = []
+
+        while queue:
+            current_state = queue.pop(0)
+            visited.append(current_state)
+
+            if current_state.is_goal_state():
+                while current_state:
+                    self.solution.insert(0, current_state)
+
+                    current_state = current_state.previous_state
+
+                self.time = time.time() - start_time
+                self.total_nodes = len(visited) + len(queue)
+                return self.solution
+
+            possible_states = self.get_possible_states(current_state)
+
+            for state in possible_states:
+                if state not in visited and state not in queue:
+                    queue.append(state)
+
+            queue.sort(key=lambda x: x.heuristic(), reverse=True)
+
+        return self.solution
+
     def get_possible_states(self, state: State) -> list[State]:
         res = []
 
         for i in range(len(state.board)):
             for j in range(len(state.board[i])):
                 if state.is_tent_assignable((i, j)):
-                    new_state = State(state.board, state.rows, state.cols)
+                    new_state = State(state.board, state.rows, state.cols, state)
                     new_state.board[i][j] = TileState.TENT
-
-                    new_state.previous_state = state
 
                     res.append(new_state)
 

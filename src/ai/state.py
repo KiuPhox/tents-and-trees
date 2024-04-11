@@ -4,17 +4,35 @@ from objects.Tile import TileState
 
 
 class State:
-    def __init__(self, board: list[list[int]], rows: list[int], cols: list[int]):
+    def __init__(
+        self,
+        board: list[list[int]],
+        rows: list[int],
+        cols: list[int],
+        previous_state=None,
+    ):
         self.board = copy.deepcopy(board)
         self.rows = rows
         self.cols = cols
-        self.previous_state = None
+        self.depth = 0
+        self.previous_state = previous_state
+
+        if self.previous_state:
+            self.depth = previous_state.depth + 1
 
     def __eq__(self, value: object) -> bool:
         if not isinstance(value, State):
             return False
 
         return self.board == value.board
+
+    def get_tents(self) -> int:
+        tents = 0
+        for row in self.board:
+            for cell in row:
+                if cell == TileState.TENT:
+                    tents += 1
+        return tents
 
     def get_row_tents(self, row: int) -> int:
         tents = 0
@@ -140,3 +158,7 @@ class State:
                 res.append(coord)
 
         return res
+
+    def heuristic(self) -> int:
+        # TODO: Implement heuristic for A* algorithm
+        pass

@@ -31,6 +31,8 @@ class GameScene(Scene):
 
         self.create_bfs_button()
         self.create_dfs_button()
+        self.create_a_star_button()
+
         self.create_next_button()
         self.create_previous_button()
         self.create_exit_button()
@@ -105,6 +107,17 @@ class GameScene(Scene):
         )
         self.dfs_button.label.color = (127, 79, 65)
 
+    def create_a_star_button(self):
+        self.a_star_button = Button(self, string="A*")
+        self.a_star_button.left_click_callback = (self.on_a_star_button_click, [], {})
+        self.a_star_button.touch_zone_size = (70, 30)
+        self.a_star_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
+        self.a_star_button.position = (
+            ScreenSize.WIDTH / 2 - 100,
+            -ScreenSize.HEIGHT / 2 + 150,
+        )
+        self.a_star_button.label.color = (127, 79, 65)
+
     def create_next_button(self):
         self.next_button = Button(self, ImagePath.NEXT_BTN)
         self.next_button.left_click_callback = (self.on_next_button_click, [], {})
@@ -176,6 +189,13 @@ class GameScene(Scene):
         self.reset_searching()
 
         self.searching.dfs()
+        self.time_text.text = f"Time: {round(self.searching.time, 7)}s"
+        self.node_text.text = f"Node: {self.searching.total_nodes}"
+
+    def on_a_star_button_click(self):
+        self.reset_searching()
+
+        self.searching.a_star()
         self.time_text.text = f"Time: {round(self.searching.time, 7)}s"
         self.node_text.text = f"Node: {self.searching.total_nodes}"
 
