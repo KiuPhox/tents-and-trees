@@ -200,18 +200,3 @@ class GameScene(Scene):
             )
             self.grid.update_ui()
             self.grid.update_grid(True)
-
-    def update(self):
-        super().update()
-        # self.screen.fill((0, 0, 0))
-        # self.screen.blit(self.bg, (0, 0))
-
-        # self.time_text.update(self.screen)
-        # self.level_title.update(self.screen)
-        # self.bfs_button.update(self.screen)
-        # self.dfs_button.update(self.screen)
-        # self.previous_button.update(self.screen)
-        # self.next_button.update(self.screen)
-        # self.exit_button.update(self.screen)
-
-        # self.grid.update(self.screen)
