@@ -1,7 +1,7 @@
 import time
 
 from ai.state import State
-from ai.problem import get_possible_states
+from objects.Tile import TileState
 
 
 class Searching:
@@ -31,7 +31,7 @@ class Searching:
                 self.total_nodes = len(visited) + len(queue)
                 return self.solution
 
-            possible_states = get_possible_states(current_state)
+            possible_states = self.get_possible_states(current_state)
 
             for state in possible_states:
                 if state not in visited and state not in queue:
@@ -59,13 +59,28 @@ class Searching:
                 self.total_nodes = len(visited) + len(stack)
                 return self.solution
 
-            possible_states = get_possible_states(current_state)
+            possible_states = self.get_possible_states(current_state)
 
             for state in possible_states:
                 if state not in visited and state not in stack:
                     stack.append(state)
 
         return self.solution
+
+    def get_possible_states(self, state: State) -> list[State]:
+        res = []
+
+        for i in range(len(state.board)):
+            for j in range(len(state.board[i])):
+                if state.is_tent_assignable((i, j)):
+                    new_state = State(state.board, state.rows, state.cols)
+                    new_state.board[i][j] = TileState.TENT
+
+                    new_state.previous_state = state
+
+                    res.append(new_state)
+
+        return res
 
     def reset(self) -> None:
         self.state = State(self.state.board, self.state.rows, self.state.cols)

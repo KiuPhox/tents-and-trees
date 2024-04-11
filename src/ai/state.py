@@ -71,43 +71,74 @@ class State:
 
         return True
 
+    def is_coord_valid(self, coord: tuple[int, int]) -> bool:
+        return 0 <= coord[0] < self.width() and 0 <= coord[1] < self.height()
+
+    def is_tent_assignable(self, coord: tuple[int, int]) -> bool:
+        node_state = self.board[coord[0]][coord[1]]
+
+        assignable = False
+
+        if node_state != TileState.EMPTY and node_state != TileState.MARK:
+            return False
+
+        for adj_coord in self.get_adjacent_coords(coord):
+            if self.board[adj_coord[0]][adj_coord[1]] == TileState.TENT:
+                return False
+
+        for hor_vert_coord in self.get_horizontal_and_vertical_coords(coord):
+            if self.board[hor_vert_coord[0]][hor_vert_coord[1]] == TileState.TREE:
+                assignable = True
+                break
+
+        if not assignable:
+            return False
+
+        for i in range(self.width()):
+            if self.get_col_tents(i) > self.rows[i]:
+                return False
+
+        for i in range(self.height()):
+            if self.get_row_tents(i) > self.cols[i]:
+                return False
+
+        return True
+
+    def get_adjacent_coords(self, coord: tuple[int, int]) -> list[tuple[int, int]]:
+        res = self.get_horizontal_and_vertical_coords(coord)
+
+        top_left_coord = (coord[0] - 1, coord[1] - 1)
+        top_right_coord = (coord[0] - 1, coord[1] + 1)
+        bottom_left_coord = (coord[0] + 1, coord[1] - 1)
+        bottom_right_coord = (coord[0] + 1, coord[1] + 1)
+
+        coords = [
+            top_left_coord,
+            top_right_coord,
+            bottom_left_coord,
+            bottom_right_coord,
+        ]
+
+        for coord in coords:
+            if self.is_coord_valid(coord):
+                res.append(coord)
+
+        return res
+
     def get_horizontal_and_vertical_coords(
-        self, position: tuple[int, int]
+        self, coord: tuple[int, int]
     ) -> list[tuple[int, int]]:
         res = []
 
-        for i in range(-1, 2):
-            if i == 0:
-                continue
+        top_coord = (coord[0] - 1, coord[1])
+        bottom_coord = (coord[0] + 1, coord[1])
+        left_coord = (coord[0], coord[1] - 1)
+        right_coord = (coord[0], coord[1] + 1)
 
-            new_x = position[0] + i
-            new_y = position[1]
+        coords = [top_coord, bottom_coord, left_coord, right_coord]
 
-            if (
-                new_x < 0
-                or new_x >= self.width()
-                or new_y < 0
-                or new_y >= self.height()
-            ):
-                continue
-
-            res.append((new_x, new_y))
-
-        for j in range(-1, 2):
-            if j == 0:
-                continue
-
-            new_x = position[0]
-            new_y = position[1] + j
-
-            if (
-                new_x < 0
-                or new_x >= self.width()
-                or new_y < 0
-                or new_y >= self.height()
-            ):
-                continue
-
-            res.append((new_x, new_y))
+        for coord in coords:
+            if self.is_coord_valid(coord):
+                res.append(coord)
 
         return res
