@@ -133,7 +133,11 @@ class GameScene(Scene):
 
     def create_exit_button(self):
         self.exit_button = Button(self, string="Exit")
-        self.left_click_callback = (SceneManager.change_scene, ["MenuScene"], {})
+        self.exit_button.left_click_callback = (
+            SceneManager.change_scene,
+            ["MenuScene"],
+            {},
+        )
         self.exit_button.touch_zone_size = (80, 50)
         self.exit_button.label.font = pygame.font.Font(FontPath.TT_FORS, 40)
         self.exit_button.position = (
