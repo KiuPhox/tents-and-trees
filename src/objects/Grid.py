@@ -1,8 +1,6 @@
 import pygame
 import copy
 
-from constants.GameConfig import ScreenSize
-from constants.AssetPath import ImagePath
 from constants.AssetPath import FontPath
 
 from engine.GameObject import GameObject
@@ -10,6 +8,8 @@ from engine.components.Text import Text
 from managers.GameManager import GameManager
 
 from objects.Tile import Tile, TileState
+
+from scenes.Scene import Scene
 
 TEXT_DEFAULT_COLOR = (127, 79, 65)
 TEXT_CORRECT_COLOR = (201, 167, 153)
@@ -19,7 +19,7 @@ TILE_SIZE = 57
 
 
 class Grid:
-    def __init__(self, scene) -> None:
+    def __init__(self, scene: Scene) -> None:
         self.scene = scene
 
     def start(self):

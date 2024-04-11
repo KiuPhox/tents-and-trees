@@ -1,8 +1,13 @@
 from engine.components.Component import Component
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from scenes.Scene import Scene
+
 
 class GameObject:
-    def __init__(self, scene):
+    def __init__(self, scene: "Scene"):
         self.name = ""
         self.components: dict[str, Component] = {}
         self.active = True

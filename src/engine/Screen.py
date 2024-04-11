@@ -76,13 +76,14 @@ class Screen:
             if not game_object.active:
                 continue
 
-            text.surface = text.font.render(text.text, True, text.color)
+            text_surface = text.font.render(text.text, True, text.color)
+            text_size = text_surface.get_size()
             size = (
-                game_object.scale[0] * text.surface.get_width(),
-                game_object.scale[1] * text.surface.get_height(),
+                game_object.scale[0] * text_size[0],
+                game_object.scale[1] * text_size[1],
             )
 
-            scaled_text = pygame.transform.scale(text.surface, size)
+            scaled_text = pygame.transform.scale(text_surface, size)
 
             if text.align == TextAlign.LEFT:
                 offset = (0, -size[1] / 2)

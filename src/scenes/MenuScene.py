@@ -1,18 +1,15 @@
 import pygame
 
 from constants.AssetPath import FontPath, ImagePath
-from constants.GameConfig import ScreenSize
 
 from engine.GameObject import GameObject
 from engine.components.Sprite import Sprite
-from engine.components.AnimationSprite import AnimationSprite
+from engine.Button import Button
 
 from managers.SceneManager import SceneManager
 from managers.GameManager import GameManager
-
-from engine.Button import Button
-
 from managers.TweenManager import Tween
+
 from scenes.Scene import Scene
 from utils.Color import Color
 

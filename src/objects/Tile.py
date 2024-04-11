@@ -8,10 +8,16 @@ from engine.components.AnimationSprite import AnimationSprite
 from managers.EaseManager import Ease
 from managers.TweenManager import Tween
 
+from scenes.Scene import Scene
+
 
 class Tile:
     def __init__(
-        self, coord: tuple[int, int], position: tuple[float, float], state: int, scene
+        self,
+        coord: tuple[int, int],
+        position: tuple[float, float],
+        state: int,
+        scene: Scene,
     ) -> None:
         self.coord = coord
         self.position = position

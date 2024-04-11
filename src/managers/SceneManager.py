@@ -1,9 +1,15 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from scenes.Scene import Scene
+
+
 class SceneManager:
-    scenes = {}
-    current_scene = None
+    scenes: dict[str, "Scene"] = {}
+    current_scene: "Scene" = None
 
     @staticmethod
-    def change_scene(name):
+    def change_scene(name: str):
         if SceneManager.current_scene is not None:
             for game_object in SceneManager.current_scene.game_objects:
                 game_object.destroy()
@@ -17,5 +23,5 @@ class SceneManager:
     def update():
         SceneManager.current_scene.update()
 
-    def register_scene(scene):
+    def register_scene(scene: "Scene"):
         SceneManager.scenes[scene.name] = scene

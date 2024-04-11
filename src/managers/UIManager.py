@@ -1,6 +1,13 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from engine.Button import Button
+    from engine.components.Text import Text
+
+
 class UIManager:
-    buttons = []
-    texts = []
+    buttons: list["Button"] = []
+    texts: list["Text"] = []
 
     @staticmethod
     def init():

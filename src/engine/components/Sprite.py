@@ -1,11 +1,13 @@
 import pygame
 
 from engine.components.Component import Component
+from engine.GameObject import GameObject
+
 from managers.SpriteManager import SpriteManager
 
 
 class Sprite(Component):
-    def __init__(self, gameObject):
+    def __init__(self, gameObject: GameObject):
         super().__init__(gameObject)
 
         self.name = "Sprite"

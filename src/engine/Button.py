@@ -1,16 +1,19 @@
-import pygame
-
 from engine.GameObject import GameObject
 from engine.components.Text import Text
 from engine.components.Sprite import Sprite
 
 from managers.UIManager import UIManager
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from scenes.Scene import Scene
+
 
 class Button(GameObject):
     def __init__(
         self,
-        scene,
+        scene: "Scene",
         image: str = None,
         string: str = "",
         left_click_callback=None,

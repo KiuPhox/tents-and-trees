@@ -1,5 +1,11 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from engine.components.Sprite import Sprite
+
+
 class SpriteManager:
-    sprites = []
+    sprites: list["Sprite"] = []
 
     @staticmethod
     def init():

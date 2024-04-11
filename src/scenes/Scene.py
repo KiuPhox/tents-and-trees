@@ -3,7 +3,7 @@ from managers.SceneManager import SceneManager
 
 
 class Scene:
-    def __init__(self, name, screen):
+    def __init__(self, name: str, screen):
         self.name = name
         self.screen = screen
         self.game_objects: list[GameObject] = []

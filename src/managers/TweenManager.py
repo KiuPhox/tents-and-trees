@@ -1,22 +1,6 @@
-import math
-
 from engine.GameObject import GameObject
 from managers.EaseManager import Ease, EaseManager
-
 from utils.Time import Time
-
-
-class TweenManager:
-    tweens = []
-
-    @staticmethod
-    def init():
-        TweenManager.tweens = []
-
-    @staticmethod
-    def update():
-        for tween in TweenManager.tweens:
-            tween.update()
 
 
 class Tween:
@@ -57,3 +41,16 @@ class Tween:
 
     def destroy(self):
         TweenManager.tweens.remove(self)
+
+
+class TweenManager:
+    tweens: Tween = []
+
+    @staticmethod
+    def init():
+        TweenManager.tweens = []
+
+    @staticmethod
+    def update():
+        for tween in TweenManager.tweens:
+            tween.update()

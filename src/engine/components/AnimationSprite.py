@@ -1,13 +1,15 @@
 import pygame
 
 from engine.components.Sprite import Sprite
+from engine.GameObject import GameObject
 
-from managers.SpriteManager import SpriteManager
 from utils.Time import Time
 
 
 class AnimationSprite(Sprite):
-    def __init__(self, gameObject, image_path: str, frame_count=1, frame_duration=0.1):
+    def __init__(
+        self, gameObject: GameObject, image_path: str, frame_count=1, frame_duration=0.1
+    ):
         super().__init__(gameObject)
 
         self.frame_count = frame_count
