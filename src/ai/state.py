@@ -16,14 +16,6 @@ class State:
 
         return self.board == value.board
 
-    def get_tents(self) -> int:
-        tents = 0
-        for row in self.board:
-            for cell in row:
-                if cell == TileState.TENT:
-                    tents += 1
-        return tents
-
     def get_row_tents(self, row: int) -> int:
         tents = 0
         for cell in self.board[row]:
@@ -45,16 +37,15 @@ class State:
         return len(self.board[0])
 
     def is_goal_state(self) -> bool:
-        for i in range(self.width()):
-            if self.get_col_tents(i) != self.rows[i]:
-                return False
-
         for i in range(self.height()):
             if self.get_row_tents(i) != self.cols[i]:
                 return False
 
-        # Check if all trees have a tent next to them
         for i in range(self.width()):
+            if self.get_col_tents(i) != self.rows[i]:
+                return False
+
+            # Check if each tree has a tent
             for j in range(self.height()):
                 if self.board[i][j] != TileState.TREE:
                     continue
@@ -82,14 +73,15 @@ class State:
         if node_state != TileState.EMPTY and node_state != TileState.MARK:
             return False
 
-        for adj_coord in self.get_adjacent_coords(coord):
+        for adj_coord in self.get_diagonal_coords(coord):
             if self.board[adj_coord[0]][adj_coord[1]] == TileState.TENT:
                 return False
 
         for hor_vert_coord in self.get_horizontal_and_vertical_coords(coord):
-            if self.board[hor_vert_coord[0]][hor_vert_coord[1]] == TileState.TREE:
+            if self.board[hor_vert_coord[0]][hor_vert_coord[1]] == TileState.TENT:
+                return False
+            elif self.board[hor_vert_coord[0]][hor_vert_coord[1]] == TileState.TREE:
                 assignable = True
-                break
 
         if not assignable:
             return False
@@ -106,6 +98,12 @@ class State:
 
     def get_adjacent_coords(self, coord: tuple[int, int]) -> list[tuple[int, int]]:
         res = self.get_horizontal_and_vertical_coords(coord)
+        res.extend(self.get_diagonal_coords(coord))
+
+        return res
+
+    def get_diagonal_coords(self, coord: tuple[int, int]) -> list[tuple[int, int]]:
+        res = []
 
         top_left_coord = (coord[0] - 1, coord[1] - 1)
         top_right_coord = (coord[0] - 1, coord[1] + 1)
