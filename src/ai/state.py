@@ -161,4 +161,4 @@ class State:
 
     def heuristic(self) -> int:
         # TODO: Implement heuristic for A* algorithm
-        pass
+        return self.get_tents()
