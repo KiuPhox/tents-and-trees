@@ -109,17 +109,23 @@ class Grid:
 
     def update_ui(self):
         for i in range(len(self.current_rows_index)):
-            if self.get_col_tents(i) == self.current_rows_index[i]:
+            tents = self.get_col_tile_states(i, TileState.TENT)
+            empty = self.get_col_tile_states(i, TileState.EMPTY)
+
+            if tents == self.current_rows_index[i]:
                 self.rows_text[i].color = TEXT_CORRECT_COLOR
-            elif self.get_col_tents(i) > self.current_rows_index[i]:
+            elif tents > self.current_rows_index[i] or empty == 0:
                 self.rows_text[i].color = TEXT_WRONG_COLOR
             else:
                 self.rows_text[i].color = TEXT_DEFAULT_COLOR
 
         for i in range(len(self.current_cols_index)):
-            if self.get_row_tents(i) == self.current_cols_index[i]:
+            tents = self.get_row_tile_states(i, TileState.TENT)
+            empty = self.get_row_tile_states(i, TileState.EMPTY)
+
+            if tents == self.current_cols_index[i]:
                 self.cols_text[i].color = TEXT_CORRECT_COLOR
-            elif self.get_row_tents(i) > self.current_cols_index[i]:
+            elif tents > self.current_cols_index[i] or empty == 0:
                 self.cols_text[i].color = TEXT_WRONG_COLOR
             else:
                 self.cols_text[i].color = TEXT_DEFAULT_COLOR
@@ -131,16 +137,16 @@ class Grid:
                     self.current_matrix[tile.coord[1]][tile.coord[0]], immediately
                 )
 
-    def get_col_tents(self, col: int):
-        tents = 0
+    def get_col_tile_states(self, col: int, state: int):
+        res = 0
         for row in self.current_matrix:
-            if row[col] == TileState.TENT:
-                tents += 1
-        return tents
+            if row[col] == state:
+                res += 1
+        return res
 
-    def get_row_tents(self, row: int):
-        tents = 0
+    def get_row_tile_states(self, row: int, state: int):
+        res = 0
         for cell in self.current_matrix[row]:
-            if cell == TileState.TENT:
-                tents += 1
-        return tents
+            if cell == state:
+                res += 1
+        return res
