@@ -1,3 +1,6 @@
+import random
+import pygame
+
 from constants.AssetPath import ImagePath
 
 from engine.Button import Button
@@ -9,6 +12,7 @@ from managers.EaseManager import Ease
 from managers.TweenManager import Tween
 
 from scenes.Scene import Scene
+from utils.Color import Color
 
 
 class Tile:
@@ -57,11 +61,13 @@ class Tile:
 
         grass_sprite = Sprite(self.grass)
         grass_sprite.set_sprite(ImagePath.GRASS)
-        grass_sprite.color = (204, 214, 125)
+        grass_sprite.color = Color.hsl_to_rgb(
+            (67, 0.52, 0.7 - random.randint(0, 3) * 0.05)
+        )
 
     def create_tent(self):
         self.tent_start = GameObject(self.scene)
-        self.tent_start.position = (self.position[0], self.position[1] - 5)
+        self.tent_start.position = (self.position[0], self.position[1])
         self.tent_start.scale = (0.35, 0.35)
 
         self.tent_start_animation = AnimationSprite(
@@ -70,7 +76,7 @@ class Tile:
         self.tent_start.add_component(self.tent_start_animation)
 
         self.tent_hide = GameObject(self.scene)
-        self.tent_hide.position = (self.position[0], self.position[1] - 5)
+        self.tent_hide.position = (self.position[0], self.position[1])
         self.tent_hide.scale = (0.35, 0.35)
 
         self.tent_hide_animation = AnimationSprite(
