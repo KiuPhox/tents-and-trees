@@ -41,6 +41,7 @@ class Button(GameObject):
 
         self.touch_zone_size = (0, 0)
         self.on_mouse_enter = False
+        self.interactable = True
 
         UIManager.register_button(self)
 

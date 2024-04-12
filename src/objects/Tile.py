@@ -22,6 +22,7 @@ class Tile:
         position: tuple[float, float],
         state: int,
         scene: Scene,
+        delay: float,
     ) -> None:
         self.coord = coord
         self.position = position
@@ -36,6 +37,24 @@ class Tile:
         self._prev_state = state
         self._state = state
 
+        self.init_set_state(state, delay)
+
+    def init_set_state(self, state: int, delay):
+        self.set_state(state, True)
+
+        self.grass.active = False
+        self.neutral.active = False
+        self.tent_start.active = False
+        self.tent_hide.active = False
+        self.tree.active = False
+        self.button.interactable = False
+
+        Tween(self.tree, (0.35, 0.35), random.uniform(1, 2) + delay / 3).on_complete(
+            lambda: (self.on_delay_complete(state))
+        )
+
+    def on_delay_complete(self, state):
+        self.button.interactable = True
         self.set_state(state)
 
     def create_button(self):

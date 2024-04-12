@@ -27,6 +27,9 @@ class Screen:
         )
 
         for button in UIManager.buttons:
+            if not button.interactable:
+                continue
+
             touch_zone = button.touch_zone()
 
             if (

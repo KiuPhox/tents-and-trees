@@ -58,7 +58,7 @@ class Grid:
                 )
                 coord = (x, y)
 
-                tile = Tile(coord, pos, self.initial_matrix[y][x], self.scene)
+                tile = Tile(coord, pos, self.initial_matrix[y][x], self.scene, rows - 5)
                 tile.on_tile_state_changed = self.on_tile_state_changed
 
                 row.append(tile)

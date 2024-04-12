@@ -16,10 +16,15 @@ class Tween:
 
         self.start_time = Time.time
 
+        self.on_complete_callback = None
+
         TweenManager.tweens.append(self)
 
     def set_ease(self, ease: Ease):
         self.ease = ease
+
+    def on_complete(self, callback):
+        self.on_complete_callback = callback
 
     def update(self):
         elapsed = Time.time - self.start_time
@@ -36,6 +41,8 @@ class Tween:
         self.game_object.scale = (xScale, yScale)
 
         if t == 1:
+            if self.on_complete_callback:
+                self.on_complete_callback()
             self.destroy()
 
     def destroy(self):
