@@ -74,6 +74,73 @@ class EaseManager:
                 if t < 0.5
                 else (math.sqrt(1 - math.pow(-2 * t + 2, 2)) + 1) / 2
             )
+        elif easeType == Ease.IN_BACK:
+            return c3 * t * t * t - c1 * t * t
+        elif easeType == Ease.OUT_BACK:
+            return 1 + c3 * math.pow(t - 1, 3) + c1 * math.pow(t - 1, 2)
+        elif easeType == Ease.IN_OUT_BACK:
+            return (
+                math.pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2) / 2
+                if t < 0.5
+                else (math.pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2
+            )
+        elif easeType == Ease.IN_ELASTIC:
+            return (
+                0
+                if t == 0
+                else (
+                    1
+                    if t == 1
+                    else -math.pow(2, 10 * t - 10) * math.sin((t * 10 - 10.75) * c4)
+                )
+            )
+        elif easeType == Ease.OUT_ELASTIC:
+            return (
+                0
+                if t == 0
+                else (
+                    1
+                    if t == 1
+                    else math.pow(2, -10 * t) * math.sin((t * 10 - 0.75) * c4) + 1
+                )
+            )
+        elif easeType == Ease.IN_OUT_ELASTIC:
+            return (
+                0
+                if t == 0
+                else (
+                    1
+                    if t == 1
+                    else (
+                        -math.pow(2, 10 * t - 10) * math.sin((20 * t - 11.125) * c5) / 2
+                        if t < 0.5
+                        else math.pow(2, -10 * t) * math.sin((20 * t - 11.125) * c5) / 2
+                        + 1
+                    )
+                )
+            )
+        elif easeType == Ease.IN_BOUNCE:
+            return 1 - EaseManager.ease_out_bounce(1 - t)
+        elif easeType == Ease.OUT_BOUNCE:
+            return EaseManager.ease_out_bounce(t)
+        elif easeType == Ease.IN_OUT_BOUNCE:
+            return (
+                1 - EaseManager.ease_out_bounce(1 - 2 * t)
+                if t < 0.5
+                else (1 + EaseManager.ease_out_bounce(2 * t - 1)) / 2
+            )
+        else:
+            return t
+
+    def ease_out_bounce(t: float) -> float:
+        if t < 1 / d1:
+            return n1 * t * t
+        elif t < 2 / d1:
+            return n1 * (t - 1.5 / d1) * t + 0.75
+        elif t < 2.5 / d1:
+            return n1 * (t - 2.25 / d1) * t + 0.9375
+        else:
+            return n1 * (t - 2.625 / d1) * t + 0.984375
 
 
 class Ease:

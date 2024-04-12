@@ -61,16 +61,8 @@ class MenuScene(Scene):
 
     def on_level_button_enter(self, button: GameObject):
         button.scale = (0.4, 0.4)
-        Tween(
-            button,
-            duration=0.1,
-            scale=(0.45, 0.45),
-        )
+        Tween(button, duration=0.1, scale=(0.45, 0.45))
 
     def on_level_button_exit(self, button: GameObject):
         button.scale = (0.45, 0.45)
-        Tween(
-            button,
-            duration=0.1,
-            scale=(0.4, 0.4),
-        )
+        Tween(button, duration=0.1, scale=(0.4, 0.4))

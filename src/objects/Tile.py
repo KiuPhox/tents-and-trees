@@ -144,7 +144,7 @@ class Tile:
 
         game_object.active = True
         game_object.scale = (0.0, 0.0)
-        Tween(game_object, (0.35, 0.35), 0.25, Ease.OUT_QUAD)
+        Tween(game_object, (0.35, 0.35), 0.25).set_ease(Ease.OUT_QUAD)
 
     def hide(self, game_object: GameObject, immediately=False):
         if immediately:
@@ -154,7 +154,7 @@ class Tile:
 
         game_object.active = True
         game_object.scale = (0.35, 0.35)
-        Tween(game_object, (0.0, 0.0), 0.25, Ease.OUT_QUAD)
+        Tween(game_object, (0.0, 0.0), 0.25).set_ease(Ease.OUT_QUAD)
 
     def on_left_click(self):
         if self._state == TileState.TENT:

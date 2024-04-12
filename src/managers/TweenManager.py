@@ -5,14 +5,10 @@ from utils.Time import Time
 
 class Tween:
     def __init__(
-        self,
-        game_object: GameObject,
-        scale: tuple[float, float],
-        duration: float,
-        ease=Ease.LINEAR,
+        self, game_object: GameObject, scale: tuple[float, float], duration: float
     ) -> None:
         self.game_object = game_object
-        self.ease = ease
+        self.ease = Ease.LINEAR
         self.duration = duration
 
         self.start_scale = self.game_object.scale
@@ -21,6 +17,9 @@ class Tween:
         self.start_time = Time.time
 
         TweenManager.tweens.append(self)
+
+    def set_ease(self, ease: Ease):
+        self.ease = ease
 
     def update(self):
         elapsed = Time.time - self.start_time
