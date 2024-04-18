@@ -5,7 +5,7 @@
 See `requirements.txt` for additional dependencies and version requirements.
 
 ```
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 ## Demo
