@@ -5,7 +5,7 @@
 See `requirements.txt` for additional dependencies and version requirements.
 
 ```
-pip install torch torchvision torchaudio
+pip install -r requirement.txt
 ```
 
 ## Demo
