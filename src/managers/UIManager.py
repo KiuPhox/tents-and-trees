@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 if TYPE_CHECKING:
     from engine.Button import Button
@@ -6,8 +6,8 @@ if TYPE_CHECKING:
 
 
 class UIManager:
-    buttons: list["Button"] = []
-    texts: list["Text"] = []
+    buttons: List["Button"] = []
+    texts: List["Text"] = []
 
     @staticmethod
     def init():

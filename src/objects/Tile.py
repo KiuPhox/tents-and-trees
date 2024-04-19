@@ -14,12 +14,14 @@ from managers.TweenManager import Tween
 from scenes.Scene import Scene
 from utils.Color import Color
 
+from typing import Tuple
+
 
 class Tile:
     def __init__(
         self,
-        coord: tuple[int, int],
-        position: tuple[float, float],
+        coord: Tuple[int, int],
+        position: Tuple[float, float],
         state: int,
         scene: Scene,
         delay: float,

@@ -2,10 +2,12 @@ from engine.GameObject import GameObject
 from managers.EaseManager import Ease, EaseManager
 from utils.Time import Time
 
+from typing import Tuple
+
 
 class Tween:
     def __init__(
-        self, game_object: GameObject, scale: tuple[float, float], duration: float
+        self, game_object: GameObject, scale: Tuple[float, float], duration: float
     ) -> None:
         self.game_object = game_object
         self.ease = Ease.LINEAR

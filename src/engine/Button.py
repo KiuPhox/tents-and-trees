@@ -4,7 +4,7 @@ from engine.components.Sprite import Sprite
 
 from managers.UIManager import UIManager
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Tuple
 
 if TYPE_CHECKING:
     from scenes.Scene import Scene
@@ -73,7 +73,7 @@ class Button(GameObject):
         UIManager.unregister_button(self)
         super().destroy()
 
-    def touch_zone(self) -> tuple[float, float]:
+    def touch_zone(self) -> Tuple[float, float]:
         if self.sprite is None:
             return (
                 self.position[0] - self.touch_zone_size[0] / 2,

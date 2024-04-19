@@ -11,6 +11,8 @@ from objects.Tile import Tile, TileState
 
 from scenes.Scene import Scene
 
+from typing import Tuple
+
 TEXT_DEFAULT_COLOR = (127, 79, 65)
 TEXT_CORRECT_COLOR = (201, 167, 153)
 TEXT_WRONG_COLOR = (255, 0, 0)
@@ -103,7 +105,7 @@ class Grid:
         self.update_ui()
         self.update_grid(immediately)
 
-    def on_tile_state_changed(self, coord: tuple[int, int], state: int):
+    def on_tile_state_changed(self, coord: Tuple[int, int], state: int):
         self.current_matrix[coord[1]][coord[0]] = state
         self.update_ui()
 

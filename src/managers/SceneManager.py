@@ -1,11 +1,11 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict
 
 if TYPE_CHECKING:
     from scenes.Scene import Scene
 
 
 class SceneManager:
-    scenes: dict[str, "Scene"] = {}
+    scenes: Dict[str, "Scene"] = {}
     current_scene: "Scene" = None
 
     @staticmethod

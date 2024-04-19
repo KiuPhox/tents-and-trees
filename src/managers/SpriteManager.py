@@ -1,11 +1,11 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 if TYPE_CHECKING:
     from engine.components.Sprite import Sprite
 
 
 class SpriteManager:
-    sprites: list["Sprite"] = []
+    sprites: List["Sprite"] = []
 
     @staticmethod
     def init():

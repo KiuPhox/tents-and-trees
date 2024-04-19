@@ -1,14 +1,15 @@
 import copy
 
 from objects.Tile import TileState
+from typing import List, Tuple
 
 
 class State:
     def __init__(
         self,
-        board: list[list[int]],
-        rows: list[int],
-        cols: list[int],
+        board: List[List[int]],
+        rows: List[int],
+        cols: List[int],
         previous_state=None,
     ):
         self.board = copy.deepcopy(board)
@@ -80,10 +81,10 @@ class State:
 
         return True
 
-    def is_coord_valid(self, coord: tuple[int, int]) -> bool:
+    def is_coord_valid(self, coord: Tuple[int, int]) -> bool:
         return 0 <= coord[0] < self.width() and 0 <= coord[1] < self.height()
 
-    def is_tent_assignable(self, coord: tuple[int, int]) -> bool:
+    def is_tent_assignable(self, coord: Tuple[int, int]) -> bool:
         node_state = self.board[coord[0]][coord[1]]
 
         assignable = False
@@ -114,13 +115,13 @@ class State:
 
         return True
 
-    def get_adjacent_coords(self, coord: tuple[int, int]) -> list[tuple[int, int]]:
+    def get_adjacent_coords(self, coord: Tuple[int, int]) -> List[Tuple[int, int]]:
         res = self.get_horizontal_and_vertical_coords(coord)
         res.extend(self.get_diagonal_coords(coord))
 
         return res
 
-    def get_diagonal_coords(self, coord: tuple[int, int]) -> list[tuple[int, int]]:
+    def get_diagonal_coords(self, coord: Tuple[int, int]) -> List[Tuple[int, int]]:
         res = []
 
         top_left_coord = (coord[0] - 1, coord[1] - 1)
@@ -142,8 +143,8 @@ class State:
         return res
 
     def get_horizontal_and_vertical_coords(
-        self, coord: tuple[int, int]
-    ) -> list[tuple[int, int]]:
+        self, coord: Tuple[int, int]
+    ) -> List[Tuple[int, int]]:
         res = []
 
         top_coord = (coord[0] - 1, coord[1])

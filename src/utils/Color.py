@@ -1,6 +1,9 @@
+from typing import Tuple
+
+
 class Color:
     @staticmethod
-    def hsl_to_rgb(hsl: tuple[float, float, float]) -> tuple[float, float, float]:
+    def hsl_to_rgb(hsl: Tuple[float, float, float]) -> Tuple[float, float, float]:
         h, s, l = hsl
         c = (1 - abs(2 * l - 1)) * s
         x = c * (1 - abs((h / 60) % 2 - 1))

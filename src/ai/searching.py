@@ -3,9 +3,11 @@ import time
 from ai.state import State
 from objects.Tile import TileState
 
+from typing import List
+
 
 class Searching:
-    def __init__(self, board: list[list[int]], rows: list[int], cols: list[int]):
+    def __init__(self, board: List[List[int]], rows: List[int], cols: List[int]):
         self.state = State(board, rows, cols)
         self.solution = []
         self.time = 0
@@ -97,7 +99,7 @@ class Searching:
 
         return self.solution
 
-    def get_possible_states(self, state: State) -> list[State]:
+    def get_possible_states(self, state: State) -> List[State]:
         res = []
 
         for i in range(len(state.board)):
