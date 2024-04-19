@@ -161,5 +161,4 @@ class State:
         return res
 
     def heuristic(self) -> int:
-        # TODO: Implement heuristic for A* algorithm
-        return self.get_tents()
+        return self.get_tents() * 4 - self.depth
